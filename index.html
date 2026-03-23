@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PESSAVA — Men's Collection</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f3ef;
+    --accent: #e8372a;
+    --gray: #888;
+    --light: #f0ede8;
+    --border: #ddd9d2;
+    --card-bg: #fff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; }
+
+  /* ANNOUNCEMENT BAR */
+  .announce {
+    background: var(--black);
+    color: var(--white);
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--white);
+    border-bottom: 1.5px solid var(--border);
+    position: sticky; top: 0; z-index: 200;
+    display: flex; align-items: center;
+    padding: 0 24px;
+    height: 60px;
+    gap: 0;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 3px;
+    color: var(--black);
+    text-decoration: none;
+    flex: 1;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  /* Desktop nav */
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--black);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding-bottom: 3px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { border-color: var(--accent); color: var(--accent); }
+
+  .nav-actions { display: flex; align-items: center; gap: 14px; }
+  .nav-actions .search-bar {
+    display: flex; align-items: center;
+    background: var(--light);
+    border-radius: 4px;
+    padding: 5px 12px;
+    gap: 6px;
+    border: 1px solid var(--border);
+  }
+  .nav-actions .search-bar input {
+    border: none; background: none; outline: none;
+    font-size: 13px; font-family: 'DM Sans', sans-serif;
+    width: 150px; color: var(--black);
+  }
+  .nav-icon-btn {
+    background: none; border: none; cursor: pointer;
+    font-size: 18px; display: flex; align-items: center;
+    color: var(--black); padding: 4px;
+  }
+  .cart-btn {
+    background: var(--black);
+    color: var(--white);
+    padding: 7px 16px;
+    border-radius: 4px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* HAMBURGER */
+  .hamburger {
+    display: none;
+    flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--black); border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  /* MOBILE MENU */
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+    background: var(--white);
+    z-index: 190;
+    padding: 24px;
+    overflow-y: auto;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid var(--border);
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    display: block;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--black);
+    letter-spacing: 0.5px;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-search {
+    display: flex; align-items: center;
+    background: var(--light); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 14px; gap: 8px;
+    margin-bottom: 20px;
+  }
+  .mobile-search input {
+    border: none; background: none; outline: none;
+    font-size: 15px; flex: 1; font-family: 'DM Sans', sans-serif;
+  }
+  .mobile-actions {
+    display: flex; gap: 12px; margin-top: 24px;
+  }
+  .mobile-actions button {
+    flex: 1; padding: 12px;
+    border-radius: 6px; border: 1.5px solid var(--border);
+    background: none; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500; cursor: pointer;
+  }
+  .mobile-actions .mob-cart {
+    background: var(--black); color: #fff; border-color: var(--black);
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    background: var(--black);
+    min-height: 420px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 40px 0;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 40%, #2a1a10 100%);
+  }
+  .hero-pattern {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%);
+    background-size: 20px 20px;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 40px;
+    animation: fadeUp 0.8s ease both;
+    max-width: 580px;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-tag {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 14px;
+    display: inline-block;
+    background: rgba(232,55,42,0.12); padding: 4px 10px; border-radius: 2px;
+    border: 1px solid rgba(232,55,42,0.3);
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    line-height: 0.9;
+    color: var(--white);
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+  .hero h1 em { color: var(--accent); font-style: normal; }
+  .hero p { color: #aaa; font-size: 14px; max-width: 340px; line-height: 1.6; margin-bottom: 28px; }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: #fff;
+    padding: 12px 28px; border-radius: 4px; border: none;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; transition: opacity 0.2s, transform 0.15s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    padding: 12px 28px; border-radius: 4px;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; transition: border-color 0.2s;
+    text-decoration: none; display: inline-block;
+  }
+  .hero-badge {
+    position: absolute; right: 40px; top: 50%; transform: translateY(-50%);
+    background: var(--accent); color: #fff;
+    width: 100px; height: 100px; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    animation: spin-slow 12s linear infinite;
+  }
+  @keyframes spin-slow { to { transform: translateY(-50%) rotate(360deg); } }
+  .hero-badge .big { font-size: 28px; }
+  .hero-badge .small { font-size: 10px; letter-spacing: 2px; }
+
+  /* CATEGORY PILLS */
+  .cats {
+    padding: 20px 16px 0;
+    display: flex; gap: 8px; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .cats::-webkit-scrollbar { display: none; }
+  .cat-pill {
+    flex-shrink: 0;
+    padding: 7px 16px;
+    border-radius: 40px;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    font-size: 12px; font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .cat-pill:hover, .cat-pill.active {
+    background: var(--black); color: var(--white); border-color: var(--black);
+  }
+
+  /* SECTION HEADER */
+  .sec-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 32px 16px 16px;
+  }
+  .sec-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px; letter-spacing: 1.5px;
+  }
+  .sec-sub { font-size: 12px; color: var(--gray); margin-top: 2px; }
+  .see-all {
+    font-size: 11px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--accent);
+    text-decoration: none; border-bottom: 1px solid var(--accent);
+    white-space: nowrap;
+  }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px 16px;
+    flex-wrap: wrap; gap: 10px;
+  }
+  .filter-left { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; flex-wrap: nowrap; }
+  .filter-left::-webkit-scrollbar { display: none; }
+  .filter-tag {
+    font-size: 11px; font-weight: 500; padding: 5px 12px;
+    border: 1px solid var(--border); border-radius: 40px;
+    cursor: pointer; background: #fff;
+    transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .filter-tag:hover { background: var(--black); color: #fff; border-color: var(--black); }
+  .result-count { font-size: 12px; color: var(--gray); }
+  .sort-select {
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 6px 10px; font-size: 12px; background: #fff;
+    font-family: 'DM Sans', sans-serif; cursor: pointer;
+  }
+
+  /* PRODUCT GRID */
+  .products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 0 16px 16px;
+  }
+  .product-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+  }
+  .product-card:hover .quick-add { opacity: 1; transform: translateY(0); }
+  .prod-img-placeholder {
+    width: 100%; aspect-ratio: 3/4;
+    background: var(--light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px; color: #ccc;
+    position: relative;
+  }
+  .prod-badge {
+    position: absolute; top: 8px; left: 8px;
+    background: var(--accent); color: #fff;
+    font-size: 9px; font-weight: 700; letter-spacing: 1px;
+    padding: 2px 7px; border-radius: 3px; text-transform: uppercase;
+  }
+  .prod-badge.new { background: var(--black); }
+  .wishlist-btn {
+    position: absolute; top: 8px; right: 8px;
+    background: #fff; border: 1px solid var(--border);
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 13px;
+    transition: background 0.2s;
+  }
+  .wishlist-btn:hover { background: #ffe5e5; }
+  .quick-add {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: var(--black); color: #fff;
+    text-align: center; padding: 9px;
+    font-size: 11px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0; transform: translateY(8px);
+    transition: all 0.25s;
+  }
+  .prod-info { padding: 10px 12px 12px; }
+  .prod-brand { font-size: 9px; letter-spacing: 2px; color: var(--gray); text-transform: uppercase; margin-bottom: 3px; }
+  .prod-name { font-size: 12px; font-weight: 500; color: var(--black); margin-bottom: 6px; line-height: 1.3; }
+  .prod-price { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+  .price-now { font-size: 13px; font-weight: 700; }
+  .price-old { font-size: 11px; color: var(--gray); text-decoration: line-through; }
+  .price-off { font-size: 10px; color: var(--accent); font-weight: 700; }
+  .prod-sizes { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+  .size-dot {
+    font-size: 9px; color: var(--gray);
+    border: 1px solid var(--border);
+    padding: 1px 5px; border-radius: 3px; font-weight: 500;
+  }
+
+  /* MID BANNER */
+  .banner-strip {
+    margin: 24px 16px;
+    background: var(--black);
+    border-radius: 10px;
+    padding: 32px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: relative; overflow: hidden; gap: 16px;
+  }
+  .banner-strip::before {
+    content: '';
+    position: absolute; right: -60px; top: -60px;
+    width: 250px; height: 250px;
+    background: var(--accent); opacity: 0.08;
+    border-radius: 50%;
+  }
+  .banner-strip h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px; color: var(--white); letter-spacing: 2px; line-height: 1;
+  }
+  .banner-strip h2 span { color: var(--accent); }
+  .banner-strip p { color: #888; font-size: 13px; margin-top: 6px; }
+
+  /* CATEGORY GRID */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    padding: 0 16px 16px;
+  }
+  .cat-card {
+    background: var(--light);
+    border-radius: 8px;
+    aspect-ratio: 1;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+    padding: 12px 8px;
+    cursor: pointer;
+    border: 1.5px solid var(--border);
+    transition: all 0.2s;
+    text-decoration: none; color: var(--black);
+  }
+  .cat-card:hover { border-color: var(--black); transform: translateY(-3px); }
+  .cat-icon { font-size: 30px; margin-bottom: 8px; }
+  .cat-name { font-size: 11px; font-weight: 600; text-align: center; }
+  .cat-count { font-size: 9px; color: var(--gray); }
+
+  /* FEATURES */
+  .features {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: 1.5px solid var(--border);
+    border-bottom: 1.5px solid var(--border);
+    margin: 24px 0;
+  }
+  .feature {
+    padding: 20px 16px;
+    display: flex; align-items: center; gap: 10px;
+    border-right: 1px solid var(--border);
+  }
+  .feature:last-child { border-right: none; }
+  .feat-icon { font-size: 20px; flex-shrink: 0; }
+  .feat-title { font-size: 12px; font-weight: 600; }
+  .feat-sub { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+  /* NEWSLETTER */
+  .newsletter {
+    background: var(--light);
+    border-top: 1.5px solid var(--border);
+    border-bottom: 1.5px solid var(--border);
+    padding: 40px 16px;
+    text-align: center;
+  }
+  .newsletter h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px; letter-spacing: 1px; margin-bottom: 6px;
+  }
+  .newsletter p { color: var(--gray); font-size: 13px; margin-bottom: 20px; }
+  .nl-form { display: flex; gap: 8px; max-width: 420px; margin: 0 auto; }
+  .nl-form input {
+    flex: 1; padding: 11px 14px;
+    border: 1.5px solid var(--border); border-radius: 4px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    background: #fff; outline: none; min-width: 0;
+  }
+  .nl-form input:focus { border-color: var(--black); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black); color: #888;
+    padding: 48px 16px 24px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px; margin-bottom: 40px;
+  }
+  .footer-brand .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px; letter-spacing: 3px;
+    color: var(--white); margin-bottom: 12px;
+  }
+  .footer-brand .logo span { color: var(--accent); }
+  .footer-brand p { font-size: 13px; line-height: 1.7; max-width: 240px; }
+  .footer-col h4 {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--white); font-weight: 600; margin-bottom: 14px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 9px; }
+  .footer-col ul li a { color: #888; text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--white); }
+  .footer-bottom {
+    border-top: 1px solid #222;
+    padding-top: 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px; flex-wrap: wrap; gap: 12px;
+  }
+  .social-links { display: flex; gap: 10px; margin-top: 16px; }
+  .social-links a {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: #1a1a1a; display: flex; align-items: center; justify-content: center;
+    font-size: 13px; text-decoration: none;
+    border: 1px solid #2a2a2a; transition: background 0.2s;
+  }
+  .social-links a:hover { background: var(--accent); }
+  .pay-badges { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .pay-badge {
+    background: #1a1a1a; padding: 3px 9px;
+    border-radius: 4px; font-size: 11px; color: #fff;
+  }
+
+  /* ===================== */
+  /* MOBILE RESPONSIVE     */
+  /* ===================== */
+
+  @media (max-width: 768px) {
+    /* Nav */
+    nav { padding: 0 16px; }
+    .nav-links { display: none; }
+    .nav-actions .search-bar { display: none; }
+    .nav-actions button:not(.cart-btn):not(.hamburger) { display: none; }
+    .hamburger { display: flex; }
+    .cart-btn { padding: 6px 12px !important; font-size: 11px !important; }
+
+    /* Hero */
+    .hero { min-height: 320px; padding: 32px 0; }
+    .hero-content { padding: 0 20px; }
+    .hero h1 { font-size: 52px; }
+    .hero p { font-size: 13px; max-width: 260px; margin-bottom: 20px; }
+    .hero-badge { display: none; }
+    .btn-primary, .btn-outline { padding: 10px 20px; font-size: 12px; }
+
+    /* Products — 2 columns on mobile */
+    .products {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 0 12px 12px;
+    }
+    .prod-img-placeholder { font-size: 32px; }
+    .prod-info { padding: 8px 10px 10px; }
+    .prod-name { font-size: 11px; }
+    .price-now { font-size: 12px; }
+    .price-old { font-size: 10px; }
+    .quick-add { font-size: 10px; padding: 7px; }
+
+    /* Section headers */
+    .sec-header { padding: 24px 12px 12px; }
+    .sec-title { font-size: 26px; }
+
+    /* Filter bar */
+    .filter-bar { padding: 0 12px 12px; }
+    .result-count { display: none; }
+
+    /* Category grid — 3 columns on mobile */
+    .cat-grid {
+      grid-template-columns: repeat(3, 1fr);
+      padding: 0 12px 12px;
+    }
+    .cat-icon { font-size: 24px; }
+    .cat-name { font-size: 10px; }
+    .cat-count { display: none; }
+
+    /* Banner */
+    .banner-strip {
+      margin: 16px 12px;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 24px 20px;
+      gap: 16px;
+    }
+    .banner-strip h2 { font-size: 32px; }
+    .banner-strip p { font-size: 12px; }
+
+    /* Features — 2x2 grid on mobile */
+    .features {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .feature {
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 16px 14px;
+    }
+    .feature:nth-child(odd) { border-right: 1px solid var(--border); }
+    .feature:nth-child(3), .feature:nth-child(4) { border-bottom: none; }
+
+    /* Newsletter */
+    .newsletter { padding: 32px 16px; }
+    .newsletter h3 { font-size: 28px; }
+    .nl-form { flex-direction: column; }
+    .nl-form input { width: 100%; }
+    .nl-form .btn-primary { width: 100%; text-align: center; }
+
+    /* Footer */
+    footer { padding: 36px 16px 20px; }
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .footer-brand { grid-column: 1 / -1; }
+    .footer-brand p { max-width: 100%; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+
+    /* Announce */
+    .announce { font-size: 10px; letter-spacing: 0.5px; padding: 7px 10px; }
+  }
+
+  @media (max-width: 400px) {
+    .hero h1 { font-size: 42px; }
+    .products { gap: 8px; padding: 0 8px 8px; }
+    .cat-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 8px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Announcement Bar -->
+<div class="announce">🎉 FREE SHIPPING ABOVE ₹499 &nbsp;|&nbsp; CODE: PESSAVA20 FOR 20% OFF &nbsp;|&nbsp; NEW DROPS EVERY FRIDAY</div>
+
+<!-- Navigation -->
+<nav>
+  <a href="#" class="nav-logo">PESSAVA<span>.</span></a>
+
+  <ul class="nav-links">
+    <li><a href="#" class="active">Men</a></li>
+    <li><a href="#">Women</a></li>
+    <li><a href="#">Kids</a></li>
+    <li><a href="#">Fanwear</a></li>
+    <li><a href="#">Accessories</a></li>
+    <li><a href="#">Sale 🔥</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <div class="search-bar">
+      <span>🔍</span>
+      <input type="text" placeholder="Search...">
+    </div>
+    <button class="nav-icon-btn" title="Wishlist">♡</button>
+    <button class="nav-icon-btn" title="Account">👤</button>
+    <button class="cart-btn" onclick="window.location.href='cart.html'">🛒 Cart (3)</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-search">
+    <span>🔍</span>
+    <input type="text" placeholder="Search products...">
+  </div>
+  <a href="#">Men</a>
+  <a href="#">Women</a>
+  <a href="#">Kids</a>
+  <a href="#">Fanwear</a>
+  <a href="#">Accessories</a>
+  <a href="#" style="color:var(--accent);">Sale 🔥</a>
+  <div class="mobile-actions">
+    <button>♡ Wishlist</button>
+    <button onclick="window.location.href='login.html'">👤 Login</button>
+    <button class="mob-cart">🛒 Cart (3)</button>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-tag">New Drop — Summer 2025</div>
+    <h1>WEAR YOUR<br><em>PESSAVA</em></h1>
+    <p>Bold prints. Street-ready fits. Gear up with the freshest men's collection — built for those who don't blend in.</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-primary">Shop Men's</a>
+      <a href="#" class="btn-outline">Lookbook</a>
+    </div>
+  </div>
+  <div class="hero-badge">
+    <div class="big">50%</div>
+    <div class="small">OFF SALE</div>
+  </div>
+</section>
+
+<!-- Category Pills -->
+<div class="cats">
+  <div class="cat-pill active" onclick="filterCat(this)">All</div>
+  <div class="cat-pill" onclick="filterCat(this)">T-Shirts</div>
+  <div class="cat-pill" onclick="filterCat(this)">Hoodies</div>
+  <div class="cat-pill" onclick="filterCat(this)">Shirts</div>
+  <div class="cat-pill" onclick="filterCat(this)">Trousers</div>
+  <div class="cat-pill" onclick="filterCat(this)">Shorts</div>
+  <div class="cat-pill" onclick="filterCat(this)">Jackets</div>
+  <div class="cat-pill" onclick="filterCat(this)">Accessories</div>
+</div>
+
+<!-- Filter Bar -->
+<div class="filter-bar" style="margin-top:16px;" id="products">
+  <div class="filter-left">
+    <div class="filter-tag">Size</div>
+    <div class="filter-tag">Color</div>
+    <div class="filter-tag">Price</div>
+    <div class="filter-tag">Brand</div>
+    <div class="filter-tag">Discount</div>
+  </div>
+  <div style="display:flex; align-items:center; gap:10px;">
+    <div class="result-count"><strong>248</strong> products</div>
+    <select class="sort-select">
+      <option>Newest First</option>
+      <option>Price: Low to High</option>
+      <option>Price: High to Low</option>
+      <option>Most Popular</option>
+    </select>
+  </div>
+</div>
+
+<!-- Section Header -->
+<div class="sec-header">
+  <div>
+    <div class="sec-title">TRENDING NOW</div>
+    <div class="sec-sub">This week's most loved picks</div>
+  </div>
+  <a href="#" class="see-all">View All →</a>
+</div>
+
+<!-- Product Grid -->
+<div class="products">
+  <div class="product-card" onclick="window.location.href='product.html'">
+    <div class="prod-img-placeholder">
+      <div class="prod-badge sale">SALE</div>
+      <div class="wishlist-btn">♡</div>
+      <div>👕</div>
+      <div class="quick-add">+ Quick Add</div>
+    </div>
+    <div class="prod-info">
+      <div class="prod-brand">PESSAVA Originals</div>
+      <div class="prod-name">Acid Wash Oversized Drop-Shoulder Tee</div>
+      <div class="prod-price">
+        <span class="price-now">₹699</span>
+        <span class="price-old">₹999</span>
+        <span class="price-off">30% OFF</span>
+      </div>
+      <div class="prod-sizes"><span class="size-dot">S</span><span class="size-dot">M</span><span class="size-dot">L</span><span class="size-dot">XL</span></div>
+    </div>
+  </div>
+
+  <div class="product-card" onclick="window.location.href='product.html'">
+    <div class="prod-img-placeholder">
+      <div class="prod-badge new">NEW</div>
+      <div class="wishlist-btn">♡</div>
+      <div>🧥</div>
+      <div class="quick-add">+ Quick Add</div>
+    </div>
+    <div class="prod-info">
+      <div class="prod-brand">Street Lab</div>
+      <div class="prod-name">Terry Fleece Zip-Up Hoodie</div>
+      <div class="prod-price">
+        <span class="price-now">₹1,299</span>
+        <span class="price-old">₹1,799</span>
+        <span class="price-off">28% OFF</span>
+      </div>
+      <div class="prod-sizes"><span class="size-dot">S</span><span class="size-dot">M</span><span class="size-dot">L</span></div>
+    </div>
+  </div>
+
+  <div class="product-card" onclick="window.location.href='product.html'">
+    <div class="prod-img-placeholder">
+      <div class="prod-badge sale">SALE</div>
+      <div class="wishlist-btn">♡</div>
+      <div>👖</div>
+      <div class="quick-add">+ Quick Add</div>
+    </div>
+    <div class="prod-info">
+      <div class="prod-brand">Cargopunk</div>
+      <div class="prod-name">6-Pocket Utility Cargo Trousers</div>
+      <div class="prod-price">
+        <span class="price-now">₹1,099</span>
+        <span class="price-old">₹1,599</span>
+        <span class="price-off">31% OFF</span>
+      </div>
+      <div class="prod-sizes"><span class="size-dot">28</span><span class="size-dot">30</span><span class="size-dot">32</span></div>
+    </div>
+  </div>
+
+  <div class="product-card" onclick="window.location.href='product.html'">
+    <div class="prod-img-placeholder">
+      <div class="prod-badge new">NEW</div>
+      <div class="wishlist-btn">♡</div>
+      <div>🧢</div>
+      <div class="quick-add">+ Quick Add</div>
+    </div>
+    <div class="prod-info">
+      <div class="prod-brand">PESSAVA Originals</div>
+      <div class="prod-name">Embroidered Logo Snapback Cap</div>
+      <div class="prod-price">
+        <span class="price-now">₹499</span>
+        <span class="price-old">₹699</span>
+        <span class="price-off">29% OFF</span>
+      </div>
+      <div class="prod-sizes"><span class="size-dot">Free Size</span></div>
+    </div>
+  </div>
+
+  <div class="product-card" onclick="window.location.href='product.html'">
+    <div class="prod-img-placeholder">
+      <div class="wishlist-btn">♡</div>
+      <div>👕</div>
+      <div class="quick-add">+ Quick Add</div>
+    </div>
+    <div class="prod-info">
+      <div class="prod-brand">GraphX</div>
+      <div class="prod-name">Anime Print Regular Fit Cotton Tee</div>
+      <div class="prod-price">
+        <span class="price-now">₹549</span>
+        <span class="price-old">₹799</span>
+        <span class="price-off">31% OFF</span>
+      </div>
+      <div class="prod-sizes"><span class="size-dot">S</span><span class="size-dot">M</span><span class="size-dot">L</span><span class="size-dot">XL</span></div>
+    </div>
+  </div>
+
+  <div class="product-card" onclick="window.location.href='product.html'">
+    <div class="prod-img-placeholder">
+      <div class="prod-badge sale">SALE</div>
+      <div class="wishlist-btn">♡</div>
+      <div>👔</div>
+      <div class="quick-add">+ Quick Add</div>
+    </div>
+    <div class="prod-info">
+      <div class="prod-brand">Street Lab</div>
+      <div class="prod-name">Relaxed Fit Cuban Collar Linen Shirt</div>
+      <div class="prod-price">
+        <span class="price-now">₹899</span>
+        <span class="price-old">₹1,299</span>
+        <span class="price-off">30% OFF</span>
+      </div>
+      <div class="prod-sizes"><span class="size-dot">S</span><span class="size-dot">M</span><span class="size-dot">L</span></div>
+    </div>
+  </div>
+
+  <div class="product-card" onclick="window.location.href='product.html'">
+    <div class="prod-img-placeholder">
+      <div class="prod-badge new">NEW</div>
+      <div class="wishlist-btn">♡</div>
+      <div>🩱</div>
+      <div class="quick-add">+ Quick Add</div>
+    </div>
+    <div class="prod-info">
+      <div class="prod-brand">PESSAVA Sport</div>
+      <div class="prod-name">Dry-Fit Training Sleeveless Vest</div>
+      <div class="prod-price">
+        <span class="price-now">₹399</span>
+        <span class="price-old">₹599</span>
+        <span class="price-off">33% OFF</span>
+      </div>
+      <div class="prod-sizes"><span class="size-dot">S</span><span class="size-dot">M</span><span class="size-dot">L</span></div>
+    </div>
+  </div>
+
+  <div class="product-card" onclick="window.location.href='product.html'">
+    <div class="prod-img-placeholder">
+      <div class="prod-badge sale">SALE</div>
+      <div class="wishlist-btn">♡</div>
+      <div>🎒</div>
+      <div class="quick-add">+ Quick Add</div>
+    </div>
+    <div class="prod-info">
+      <div class="prod-brand">Cargopunk</div>
+      <div class="prod-name">Nylon Crossbody Sling Bag</div>
+      <div class="prod-price">
+        <span class="price-now">₹799</span>
+        <span class="price-old">₹1,199</span>
+        <span class="price-off">33% OFF</span>
+      </div>
+      <div class="prod-sizes"><span class="size-dot">One Size</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Mid Banner -->
+<div class="banner-strip">
+  <div>
+    <h2>FLAT <span>50% OFF</span><br>ALL HOODIES</h2>
+    <p>Limited time. Limited stock. Don't say we didn't warn you.</p>
+  </div>
+  <a href="#" class="btn-primary" style="white-space:nowrap; flex-shrink:0;">Grab the Deal</a>
+</div>
+
+<!-- Shop by Category -->
+<div class="sec-header">
+  <div>
+    <div class="sec-title">SHOP BY CATEGORY</div>
+    <div class="sec-sub">Find exactly what you're looking for</div>
+  </div>
+</div>
+<div class="cat-grid">
+  <a href="#" class="cat-card"><div class="cat-icon">👕</div><div class="cat-name">T-Shirts</div><div class="cat-count">842 products</div></a>
+  <a href="#" class="cat-card"><div class="cat-icon">🧥</div><div class="cat-name">Hoodies</div><div class="cat-count">324 products</div></a>
+  <a href="#" class="cat-card"><div class="cat-icon">👔</div><div class="cat-name">Shirts</div><div class="cat-count">210 products</div></a>
+  <a href="#" class="cat-card"><div class="cat-icon">👖</div><div class="cat-name">Trousers</div><div class="cat-count">178 products</div></a>
+  <a href="#" class="cat-card"><div class="cat-icon">🩳</div><div class="cat-name">Shorts</div><div class="cat-count">156 products</div></a>
+</div>
+
+<!-- New Arrivals -->
+<div class="sec-header" style="margin-top:12px;">
+  <div>
+    <div class="sec-title">NEW ARRIVALS</div>
+    <div class="sec-sub">Fresh off the press — added this week</div>
+  </div>
+  <a href="#" class="see-all">View All →</a>
+</div>
+<div class="products">
+  <div class="product-card" onclick="window.location.href='product.html'">
+    <div class="prod-img-placeholder">
+      <div class="prod-badge new">NEW</div>
+      <div class="wishlist-btn">♡</div>
+      <div>🎽</div>
+      <div class="quick-add">+ Quick Add</div>
+    </div>
+    <div class="prod-info">
+      <div class="prod-brand">PESSAVA Sport</div>
+      <div class="prod-name">Color Block Tracksuit Set</div>
+      <div class="prod-price"><span class="price-now">₹1,499</span><span class="price-old">₹1,999</span><span class="price-off">25% OFF</span></div>
+      <div class="prod-sizes"><span class="size-dot">S</span><span class="size-dot">M</span><span class="size-dot">L</span></div>
+    </div>
+  </div>
+  <div class="product-card" onclick="window.location.href='product.html'">
+    <div class="prod-img-placeholder">
+      <div class="prod-badge new">NEW</div>
+      <div class="wishlist-btn">♡</div>
+      <div>🧣</div>
+      <div class="quick-add">+ Quick Add</div>
+    </div>
+    <div class="prod-info">
+      <div class="prod-brand">PESSAVA Originals</div>
+      <div class="prod-name">Knitted Winter Scarf & Beanie Set</div>
+      <div class="prod-price"><span class="price-now">₹599</span><span class="price-old">₹899</span><span class="price-off">33% OFF</span></div>
+      <div class="prod-sizes"><span class="size-dot">Free Size</span></div>
+    </div>
+  </div>
+  <div class="product-card" onclick="window.location.href='product.html'">
+    <div class="prod-img-placeholder">
+      <div class="prod-badge new">NEW</div>
+      <div class="wishlist-btn">♡</div>
+      <div>👟</div>
+      <div class="quick-add">+ Quick Add</div>
+    </div>
+    <div class="prod-info">
+      <div class="prod-brand">Sole Lab</div>
+      <div class="prod-name">Canvas Low-Top Sneakers</div>
+      <div class="prod-price"><span class="price-now">₹1,199</span><span class="price-old">₹1,699</span><span class="price-off">29% OFF</span></div>
+      <div class="prod-sizes"><span class="size-dot">7</span><span class="size-dot">8</span><span class="size-dot">9</span><span class="size-dot">10</span></div>
+    </div>
+  </div>
+  <div class="product-card" onclick="window.location.href='product.html'">
+    <div class="prod-img-placeholder">
+      <div class="prod-badge new">NEW</div>
+      <div class="wishlist-btn">♡</div>
+      <div>⌚</div>
+      <div class="quick-add">+ Quick Add</div>
+    </div>
+    <div class="prod-info">
+      <div class="prod-brand">Cargopunk</div>
+      <div class="prod-name">Minimal Mesh-Strap Sports Watch</div>
+      <div class="prod-price"><span class="price-now">₹999</span><span class="price-old">₹1,499</span><span class="price-off">33% OFF</span></div>
+      <div class="prod-sizes"><span class="size-dot">Free Size</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Trust Features -->
+<div class="features">
+  <div class="feature"><div class="feat-icon">🚚</div><div><div class="feat-title">Free Shipping</div><div class="feat-sub">On orders above ₹499</div></div></div>
+  <div class="feature"><div class="feat-icon">↩️</div><div><div class="feat-title">Easy 30-Day Returns</div><div class="feat-sub">No questions asked</div></div></div>
+  <div class="feature"><div class="feat-icon">🔒</div><div><div class="feat-title">Secure Payment</div><div class="feat-sub">UPI, Cards, COD accepted</div></div></div>
+  <div class="feature"><div class="feat-icon">⭐</div><div><div class="feat-title">4.8★ Rated</div><div class="feat-sub">By 2 lakh+ customers</div></div></div>
+</div>
+
+<!-- Newsletter -->
+<div class="newsletter">
+  <h3>GET 10% OFF YOUR FIRST ORDER</h3>
+  <p>Subscribe for exclusive deals, new drops & style tips.</p>
+  <div class="nl-form">
+    <input type="email" placeholder="Enter your email address">
+    <button class="btn-primary">Subscribe</button>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">PESSAVA<span>.</span></div>
+      <p>India's newest bold fashion brand for the bold, the creative, and the unapologetically you. Wear your Pessava, every day.</p>
+      <div class="social-links">
+        <a href="#">📷</a><a href="#">🐦</a><a href="#">📘</a><a href="#">▶️</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Men's</h4>
+      <ul>
+        <li><a href="#">T-Shirts</a></li><li><a href="#">Hoodies</a></li>
+        <li><a href="#">Shirts</a></li><li><a href="#">Trousers</a></li>
+        <li><a href="#">Shorts</a></li><li><a href="#">Accessories</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Size Guide</a></li><li><a href="#">Track Order</a></li>
+        <li><a href="#">Return Policy</a></li><li><a href="#">FAQs</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li><li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li><li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 PESSAVA Store. All rights reserved.</div>
+    <div class="pay-badges">
+      <span>We accept:</span>
+      <span class="pay-badge">UPI</span>
+      <span class="pay-badge">VISA</span>
+      <span class="pay-badge">COD</span>
+      <span class="pay-badge">EMI</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+function filterCat(el) {
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+}
+document.querySelectorAll('.wishlist-btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    this.textContent = this.textContent === '♡' ? '❤️' : '♡';
+  });
+});
+</script>
+</body>
+</html>
