@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -258,4 +259,266 @@ function applyPromo() {
 renderCart();
 </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PESSAVA — Cart</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#0a0a0a; --white:#f5f3ef; --accent:#e8372a; --gray:#888; --light:#f0ede8; --border:#ddd9d2; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background:var(--white); color:var(--black); }
+  .announce { background:var(--black); color:var(--white); text-align:center; font-size:11px; letter-spacing:1px; padding:8px; text-transform:uppercase; }
+  nav { background:var(--white); border-bottom:1.5px solid var(--border); position:sticky; top:0; z-index:100; display:flex; align-items:center; padding:0 24px; height:60px; }
+  .nav-logo { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:3px; color:var(--black); text-decoration:none; flex:1; }
+  .nav-logo span { color:var(--accent); }
+  .nav-right { display:flex; gap:16px; align-items:center; }
+  .nav-right a { text-decoration:none; font-size:13px; color:var(--black); font-weight:500; }
+
+  .page-title { font-family:'Bebas Neue',sans-serif; font-size:40px; letter-spacing:1px; padding:28px 24px 16px; }
+
+  /* LAYOUT */
+  .cart-layout { display:grid; grid-template-columns:1fr 360px; gap:28px; max-width:1100px; margin:0 auto; padding:0 24px 60px; }
+
+  /* CART ITEMS */
+  .cart-items { display:flex; flex-direction:column; gap:16px; }
+  .empty-state { text-align:center; padding:60px 20px; }
+  .empty-state .big { font-size:64px; margin-bottom:16px; }
+  .empty-state h3 { font-family:'Bebas Neue',sans-serif; font-size:28px; margin-bottom:8px; }
+  .empty-state p { color:var(--gray); font-size:14px; margin-bottom:24px; }
+
+  .cart-item {
+    background:#fff; border:1px solid var(--border); border-radius:10px;
+    padding:16px; display:flex; gap:16px; align-items:flex-start;
+  }
+  .item-img {
+    width:90px; height:90px; background:var(--light);
+    border-radius:8px; display:flex; align-items:center;
+    justify-content:center; font-size:36px; flex-shrink:0;
+  }
+  .item-info { flex:1; }
+  .item-brand { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--gray); margin-bottom:3px; }
+  .item-name { font-size:14px; font-weight:600; margin-bottom:6px; }
+  .item-meta { font-size:12px; color:var(--gray); margin-bottom:10px; }
+  .item-bottom { display:flex; align-items:center; justify-content:space-between; }
+  .item-price { font-size:16px; font-weight:700; }
+  .item-qty { display:flex; align-items:center; border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+  .item-qty button { width:32px; height:32px; background:none; border:none; font-size:16px; cursor:pointer; font-family:'DM Sans',sans-serif; }
+  .item-qty button:hover { background:var(--light); }
+  .item-qty span { width:32px; text-align:center; font-size:13px; font-weight:600; }
+  .item-remove { background:none; border:none; color:var(--gray); cursor:pointer; font-size:18px; padding:4px; transition:color 0.2s; }
+  .item-remove:hover { color:var(--accent); }
+
+  /* PROMO */
+  .promo-box { background:#fff; border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:16px; }
+  .promo-label { font-size:13px; font-weight:600; margin-bottom:10px; }
+  .promo-row { display:flex; gap:8px; }
+  .promo-row input { flex:1; padding:10px 12px; border:1.5px solid var(--border); border-radius:6px; font-size:13px; font-family:'DM Sans',sans-serif; outline:none; }
+  .promo-row input:focus { border-color:var(--black); }
+  .promo-row button { padding:10px 18px; background:var(--black); color:#fff; border:none; border-radius:6px; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; cursor:pointer; }
+  .promo-success { font-size:12px; color:#2e7d32; margin-top:8px; display:none; }
+
+  /* ORDER SUMMARY */
+  .summary { background:#fff; border:1px solid var(--border); border-radius:10px; padding:20px; position:sticky; top:80px; height:fit-content; }
+  .summary-title { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; margin-bottom:16px; }
+  .summary-row { display:flex; justify-content:space-between; font-size:13px; margin-bottom:10px; }
+  .summary-row.discount { color:#2e7d32; }
+  .summary-row.shipping { color:var(--gray); }
+  .summary-divider { border:none; border-top:1px solid var(--border); margin:14px 0; }
+  .summary-total { display:flex; justify-content:space-between; font-size:16px; font-weight:700; margin-bottom:20px; }
+  .btn-checkout {
+    width:100%; background:var(--accent); color:#fff;
+    padding:15px; border-radius:6px; border:none;
+    font-family:'DM Sans',sans-serif; font-size:14px;
+    font-weight:700; letter-spacing:1px; text-transform:uppercase;
+    cursor:pointer; transition:opacity 0.2s; margin-bottom:10px;
+  }
+  .btn-checkout:hover { opacity:0.9; }
+  .btn-continue { width:100%; background:none; color:var(--black); padding:13px; border-radius:6px; border:1.5px solid var(--border); font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; cursor:pointer; }
+  .btn-continue:hover { border-color:var(--black); }
+  .secure-note { text-align:center; font-size:11px; color:var(--gray); margin-top:12px; }
+  .pay-icons { display:flex; gap:6px; justify-content:center; margin-top:8px; flex-wrap:wrap; }
+  .pay-icon { background:var(--light); border:1px solid var(--border); padding:3px 8px; border-radius:4px; font-size:11px; }
+
+  /* MOBILE */
+  @media(max-width:768px) {
+    .cart-layout { grid-template-columns:1fr; padding:0 12px 40px; }
+    .summary { position:static; }
+    .page-title { padding:20px 16px 12px; font-size:32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="announce">FREE SHIPPING ABOVE ₹499 &nbsp;|&nbsp; CODE: PESSAVA20</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">PESSAVA<span>.</span></a>
+  <div class="nav-right">
+    <a href="index.html">← Continue Shopping</a>
+  </div>
+</nav>
+
+<div class="page-title">Your Cart (<span id="itemCount">0</span> items)</div>
+
+<div class="cart-layout">
+  <div>
+    <!-- Cart Items -->
+    <div class="cart-items" id="cartItems">
+      <div class="empty-state" id="emptyState">
+        <div class="big">🛒</div>
+        <h3>YOUR CART IS EMPTY</h3>
+        <p>Looks like you haven't added anything yet!</p>
+        <a href="index.html" style="display:inline-block; background:var(--black); color:#fff; padding:12px 32px; border-radius:6px; text-decoration:none; font-weight:600; font-size:13px; letter-spacing:1px; text-transform:uppercase;">Shop Now</a>
+      </div>
+    </div>
+
+    <!-- Promo Code -->
+    <div class="promo-box" id="promoBox" style="display:none; margin-top:16px;">
+      <div class="promo-label">Have a promo code?</div>
+      <div class="promo-row">
+        <input type="text" id="promoInput" placeholder="Enter code e.g. PESSAVA20">
+        <button onclick="applyPromo()">Apply</button>
+      </div>
+      <div class="promo-success" id="promoSuccess">✅ Code applied! You saved ₹<span id="promoSaved">0</span></div>
+    </div>
+  </div>
+
+  <!-- Order Summary -->
+  <div class="summary" id="summaryBox" style="display:none;">
+    <div class="summary-title">Order Summary</div>
+    <div class="summary-row">
+      <span>Subtotal (<span id="sumCount">0</span> items)</span>
+      <span>₹<span id="subtotal">0</span></span>
+    </div>
+    <div class="summary-row discount" id="discountRow" style="display:none;">
+      <span>Promo (PESSAVA20)</span>
+      <span>− ₹<span id="discountAmt">0</span></span>
+    </div>
+    <div class="summary-row shipping" id="shippingRow">
+      <span>Shipping</span>
+      <span id="shippingCost">₹49</span>
+    </div>
+    <hr class="summary-divider">
+    <div class="summary-total">
+      <span>Total</span>
+      <span>₹<span id="total">0</span></span>
+    </div>
+    <button class="btn-checkout" onclick="window.location.href='login.html'">Proceed to Checkout →</button>
+    <button class="btn-continue" onclick="window.location.href='index.html'">← Continue Shopping</button>
+    <div class="secure-note">🔒 Secure & Encrypted Checkout</div>
+    <div class="pay-icons">
+      <span class="pay-icon">UPI</span>
+      <span class="pay-icon">VISA</span>
+      <span class="pay-icon">Mastercard</span>
+      <span class="pay-icon">COD</span>
+      <span class="pay-icon">EMI</span>
+    </div>
+  </div>
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem('pessava_cart') || '[]');
+let promoApplied = false;
+
+// Add demo items if cart empty for demo
+if(cart.length === 0) {
+  cart = [
+    { name:'Acid Wash Oversized Tee', brand:'PESSAVA Originals', price:699, qty:1, size:'M', color:'Black', emoji:'👕' },
+    { name:'Terry Fleece Zip-Up Hoodie', brand:'Street Lab', price:1299, qty:1, size:'L', color:'Charcoal', emoji:'🧥' },
+  ];
+}
+
+function renderCart() {
+  const container = document.getElementById('cartItems');
+  const emptyState = document.getElementById('emptyState');
+  const promoBox = document.getElementById('promoBox');
+  const summaryBox = document.getElementById('summaryBox');
+
+  if(cart.length === 0) {
+    container.innerHTML = '';
+    container.appendChild(emptyState);
+    emptyState.style.display = 'block';
+    promoBox.style.display = 'none';
+    summaryBox.style.display = 'none';
+    document.getElementById('itemCount').textContent = 0;
+    return;
+  }
+
+  emptyState.style.display = 'none';
+  promoBox.style.display = 'block';
+  summaryBox.style.display = 'block';
+
+  container.innerHTML = cart.map((item, i) => `
+    <div class="cart-item">
+      <div class="item-img">${item.emoji || '👕'}</div>
+      <div class="item-info">
+        <div class="item-brand">${item.brand || 'PESSAVA'}</div>
+        <div class="item-name">${item.name}</div>
+        <div class="item-meta">Size: ${item.size} &nbsp;|&nbsp; Color: ${item.color}</div>
+        <div class="item-bottom">
+          <div class="item-price">₹${(item.price * item.qty).toLocaleString()}</div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div class="item-qty">
+              <button onclick="changeQty(${i},-1)">−</button>
+              <span>${item.qty}</span>
+              <button onclick="changeQty(${i},1)">+</button>
+            </div>
+            <button class="item-remove" onclick="removeItem(${i})" title="Remove">🗑</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  updateSummary();
+}
+
+function changeQty(i, d) {
+  cart[i].qty = Math.max(1, Math.min(10, cart[i].qty + d));
+  localStorage.setItem('pessava_cart', JSON.stringify(cart));
+  renderCart();
+}
+function removeItem(i) {
+  cart.splice(i, 1);
+  localStorage.setItem('pessava_cart', JSON.stringify(cart));
+  renderCart();
+}
+function updateSummary() {
+  const subtotal = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  const count = cart.reduce((s,i) => s + i.qty, 0);
+  const discount = promoApplied ? Math.round(subtotal * 0.2) : 0;
+  const shipping = subtotal >= 499 ? 0 : 49;
+  const total = subtotal - discount + shipping;
+
+  document.getElementById('itemCount').textContent = count;
+  document.getElementById('sumCount').textContent = count;
+  document.getElementById('subtotal').textContent = subtotal.toLocaleString();
+  document.getElementById('total').textContent = total.toLocaleString();
+  document.getElementById('shippingCost').textContent = shipping === 0 ? 'FREE 🎉' : '₹49';
+
+  if(promoApplied) {
+    document.getElementById('discountRow').style.display = 'flex';
+    document.getElementById('discountAmt').textContent = discount.toLocaleString();
+    document.getElementById('promoSaved').textContent = discount;
+  }
+}
+function applyPromo() {
+  const code = document.getElementById('promoInput').value.trim().toUpperCase();
+  if(code === 'PESSAVA20') {
+    promoApplied = true;
+    document.getElementById('promoSuccess').style.display = 'block';
+    updateSummary();
+  } else {
+    alert('Invalid promo code. Try PESSAVA20');
+  }
+}
+
+renderCart();
+</script>
+</body>
+>>>>>>> 7771a304068ac7bb757bda8b6862851a7b370c85
 </html>
