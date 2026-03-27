@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PESSAVA — Login / Sign Up</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#0a0a0a; --white:#f5f3ef; --accent:#e8372a; --gray:#888; --light:#f0ede8; --border:#ddd9d2; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background:var(--white); color:var(--black); min-height:100vh; display:flex; flex-direction:column; }
+
+  .announce { background:var(--black); color:var(--white); text-align:center; font-size:11px; letter-spacing:1px; padding:8px; text-transform:uppercase; }
+  nav { background:var(--white); border-bottom:1.5px solid var(--border); display:flex; align-items:center; padding:0 24px; height:60px; }
+  .nav-logo { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:3px; color:var(--black); text-decoration:none; flex:1; }
+  .nav-logo span { color:var(--accent); }
+
+  .auth-wrapper {
+    flex:1; display:flex; align-items:center; justify-content:center;
+    padding:40px 16px;
+  }
+  .auth-card {
+    background:#fff; border:1px solid var(--border);
+    border-radius:14px; padding:36px 32px;
+    width:100%; max-width:420px;
+  }
+
+  /* TABS */
+  .tabs { display:flex; background:var(--light); border-radius:8px; padding:4px; margin-bottom:28px; }
+  .tab {
+    flex:1; padding:10px; text-align:center; border-radius:6px;
+    font-size:13px; font-weight:600; cursor:pointer;
+    transition:all 0.25s; letter-spacing:0.5px;
+    border:none; background:none; font-family:'DM Sans',sans-serif;
+    color:var(--gray);
+  }
+  .tab.active { background:#fff; color:var(--black); box-shadow:0 1px 4px rgba(0,0,0,0.08); }
+
+  .form-section { display:none; }
+  .form-section.active { display:block; }
+
+  .form-title { font-family:'Bebas Neue',sans-serif; font-size:30px; letter-spacing:1px; margin-bottom:4px; }
+  .form-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+
+  .form-group { margin-bottom:16px; }
+  .form-label { font-size:12px; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:6px; display:block; }
+  .form-input {
+    width:100%; padding:12px 14px;
+    border:1.5px solid var(--border); border-radius:6px;
+    font-family:'DM Sans',sans-serif; font-size:14px;
+    background:#fff; outline:none; color:var(--black);
+    transition:border-color 0.2s;
+  }
+  .form-input:focus { border-color:var(--black); }
+  .form-input.error { border-color:var(--accent); }
+
+  .input-wrapper { position:relative; }
+  .toggle-pass {
+    position:absolute; right:12px; top:50%; transform:translateY(-50%);
+    background:none; border:none; cursor:pointer; font-size:16px; color:var(--gray);
+  }
+
+  .forgot { float:right; font-size:12px; color:var(--accent); text-decoration:none; font-weight:500; }
+  .forgot:hover { text-decoration:underline; }
+
+  .error-msg { font-size:12px; color:var(--accent); margin-top:4px; display:none; }
+
+  .btn-submit {
+    width:100%; background:var(--black); color:#fff;
+    padding:14px; border-radius:6px; border:none;
+    font-family:'DM Sans',sans-serif; font-size:14px;
+    font-weight:700; letter-spacing:1px; text-transform:uppercase;
+    cursor:pointer; transition:opacity 0.2s; margin-top:8px;
+  }
+  .btn-submit:hover { opacity:0.85; }
+  .btn-submit:disabled { opacity:0.5; cursor:not-allowed; }
+
+  .divider { display:flex; align-items:center; gap:12px; margin:20px 0; }
+  .divider::before, .divider::after { content:''; flex:1; border-top:1px solid var(--border); }
+  .divider span { font-size:12px; color:var(--gray); }
+
+  .social-logins { display:flex; gap:10px; }
+  .social-btn {
+    flex:1; padding:11px; border:1.5px solid var(--border);
+    border-radius:6px; background:#fff; cursor:pointer;
+    font-size:13px; font-weight:500; font-family:'DM Sans',sans-serif;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    transition:border-color 0.2s;
+  }
+  .social-btn:hover { border-color:var(--black); }
+
+  .switch-text { text-align:center; font-size:13px; color:var(--gray); margin-top:20px; }
+  .switch-text a { color:var(--black); font-weight:600; text-decoration:none; }
+  .switch-text a:hover { color:var(--accent); }
+
+  .terms { font-size:11px; color:var(--gray); text-align:center; margin-top:16px; line-height:1.6; }
+  .terms a { color:var(--gray); text-decoration:underline; }
+
+  /* OTP section */
+  .otp-inputs { display:flex; gap:10px; justify-content:center; margin:20px 0; }
+  .otp-input {
+    width:48px; height:52px; text-align:center;
+    border:1.5px solid var(--border); border-radius:8px;
+    font-size:20px; font-weight:700; font-family:'DM Sans',sans-serif;
+    outline:none;
+  }
+  .otp-input:focus { border-color:var(--black); }
+  .resend { text-align:center; font-size:13px; color:var(--gray); margin-top:12px; }
+  .resend a { color:var(--accent); cursor:pointer; font-weight:500; }
+
+  /* Success */
+  .success-screen { display:none; text-align:center; padding:20px 0; }
+  .success-screen .check { font-size:56px; margin-bottom:16px; }
+  .success-screen h3 { font-family:'Bebas Neue',sans-serif; font-size:28px; margin-bottom:8px; }
+  .success-screen p { color:var(--gray); font-size:14px; margin-bottom:24px; }
+
+  @media(max-width:480px) {
+    .auth-card { padding:24px 20px; }
+    .social-logins { flex-direction:column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="announce">FREE SHIPPING ABOVE ₹499 &nbsp;|&nbsp; CODE: PESSAVA20</div>
+<nav>
+  <a href="index.html" class="nav-logo">PESSAVA<span>.</span></a>
+</nav>
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('login')">Login</button>
+      <button class="tab" onclick="switchTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div class="form-section active" id="loginForm">
+      <div class="form-title">Welcome Back!</div>
+      <div class="form-sub">Login to track orders & save wishlist</div>
+
+      <div class="form-group">
+        <label class="form-label">Email or Mobile</label>
+        <input type="text" class="form-input" id="loginEmail" placeholder="you@email.com or 9876543210">
+        <div class="error-msg" id="loginEmailErr">Please enter a valid email or mobile</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">
+          Password
+          <a href="#" class="forgot">Forgot password?</a>
+        </label>
+        <div class="input-wrapper">
+          <input type="password" class="form-input" id="loginPass" placeholder="Your password">
+          <button class="toggle-pass" onclick="togglePass('loginPass',this)" type="button">👁</button>
+        </div>
+        <div class="error-msg" id="loginPassErr">Password must be at least 6 characters</div>
+      </div>
+
+      <button class="btn-submit" onclick="doLogin()">Login to PESSAVA</button>
+
+      <div class="divider"><span>or continue with</span></div>
+      <div class="social-logins">
+        <button class="social-btn">📱 Google</button>
+        <button class="social-btn">📘 Facebook</button>
+      </div>
+
+      <div class="switch-text">
+        Don't have an account? <a onclick="switchTab('signup')">Sign Up</a>
+      </div>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div class="form-section" id="signupForm">
+      <div class="form-title">Create Account</div>
+      <div class="form-sub">Join PESSAVA — it's free!</div>
+
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input type="text" class="form-input" id="signupName" placeholder="Your full name">
+        <div class="error-msg" id="signupNameErr">Please enter your name</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="signupEmail" placeholder="you@email.com">
+        <div class="error-msg" id="signupEmailErr">Please enter a valid email</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mobile Number</label>
+        <div class="input-wrapper" style="display:flex; gap:8px;">
+          <input type="text" class="form-input" value="+91" style="width:60px; padding:12px 8px; text-align:center; flex-shrink:0;" readonly>
+          <input type="tel" class="form-input" id="signupMobile" placeholder="10-digit mobile number">
+        </div>
+        <div class="error-msg" id="signupMobileErr">Please enter a valid 10-digit number</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="input-wrapper">
+          <input type="password" class="form-input" id="signupPass" placeholder="Min. 6 characters">
+          <button class="toggle-pass" onclick="togglePass('signupPass',this)" type="button">👁</button>
+        </div>
+        <div class="error-msg" id="signupPassErr">Password must be at least 6 characters</div>
+      </div>
+
+      <button class="btn-submit" onclick="doSignup()">Create My Account</button>
+
+      <div class="divider"><span>or sign up with</span></div>
+      <div class="social-logins">
+        <button class="social-btn">📱 Google</button>
+        <button class="social-btn">📘 Facebook</button>
+      </div>
+
+      <div class="switch-text">
+        Already have an account? <a onclick="switchTab('login')">Login</a>
+      </div>
+      <div class="terms">
+        By signing up, you agree to our <a href="#">Terms of Service</a> & <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+
+    <!-- OTP FORM -->
+    <div class="form-section" id="otpForm">
+      <div style="text-align:center; margin-bottom:20px;">
+        <div style="font-size:40px; margin-bottom:12px;">📱</div>
+        <div class="form-title">Verify OTP</div>
+        <div class="form-sub">Sent to your mobile number</div>
+      </div>
+      <div class="otp-inputs">
+        <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this,0)">
+        <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this,1)">
+        <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this,2)">
+        <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this,3)">
+        <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this,4)">
+        <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this,5)">
+      </div>
+      <div class="resend">Didn't receive? <a onclick="alert('OTP resent!')">Resend OTP</a></div>
+      <button class="btn-submit" style="margin-top:20px;" onclick="verifyOTP()">Verify & Continue</button>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="successScreen">
+      <div class="check">🎉</div>
+      <h3>YOU'RE IN!</h3>
+      <p>Welcome to PESSAVA! Your account is ready.</p>
+      <a href="index.html" style="display:inline-block; background:var(--black); color:#fff; padding:13px 32px; border-radius:6px; text-decoration:none; font-weight:700; font-size:13px; letter-spacing:1px; text-transform:uppercase;">Start Shopping →</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    t.classList.toggle('active', (tab==='login' && i===0) || (tab==='signup' && i===1));
+  });
+  document.getElementById('loginForm').classList.toggle('active', tab==='login');
+  document.getElementById('signupForm').classList.toggle('active', tab==='signup');
+  document.getElementById('otpForm').classList.remove('active');
+  document.getElementById('successScreen').style.display = 'none';
+}
+function togglePass(id, btn) {
+  const inp = document.getElementById(id);
+  if(inp.type==='password') { inp.type='text'; btn.textContent='🙈'; }
+  else { inp.type='password'; btn.textContent='👁'; }
+}
+function showErr(id, show) {
+  document.getElementById(id).style.display = show ? 'block' : 'none';
+}
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  let valid = true;
+  if(!email) { showErr('loginEmailErr', true); valid=false; } else showErr('loginEmailErr',false);
+  if(pass.length < 6) { showErr('loginPassErr', true); valid=false; } else showErr('loginPassErr',false);
+  if(valid) {
+    document.getElementById('loginForm').classList.remove('active');
+    document.querySelector('.tabs').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'block';
+  }
+}
+function doSignup() {
+  const name = document.getElementById('signupName').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const mobile = document.getElementById('signupMobile').value.trim();
+  const pass = document.getElementById('signupPass').value;
+  let valid = true;
+  if(!name) { showErr('signupNameErr',true); valid=false; } else showErr('signupNameErr',false);
+  if(!email || !email.includes('@')) { showErr('signupEmailErr',true); valid=false; } else showErr('signupEmailErr',false);
+  if(mobile.length !== 10) { showErr('signupMobileErr',true); valid=false; } else showErr('signupMobileErr',false);
+  if(pass.length < 6) { showErr('signupPassErr',true); valid=false; } else showErr('signupPassErr',false);
+  if(valid) {
+    document.getElementById('signupForm').classList.remove('active');
+    document.getElementById('otpForm').classList.add('active');
+    document.querySelectorAll('.tab').forEach(t => t.disabled = true);
+  }
+}
+function otpMove(inp, idx) {
+  inp.value = inp.value.replace(/\D/g,'');
+  const inputs = document.querySelectorAll('.otp-input');
+  if(inp.value && idx < 5) inputs[idx+1].focus();
+}
+function verifyOTP() {
+  const otp = [...document.querySelectorAll('.otp-input')].map(i=>i.value).join('');
+  if(otp.length < 6) { alert('Enter complete 6-digit OTP'); return; }
+  document.getElementById('otpForm').classList.remove('active');
+  document.querySelector('.tabs').style.display = 'none';
+  document.getElementById('successScreen').style.display = 'block';
+}
+</script>
+</body>
+</html>
