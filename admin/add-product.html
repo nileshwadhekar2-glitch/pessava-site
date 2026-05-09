@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Add Product — PESSAVA Admin</title>
+    <link rel="stylesheet" href="css/admin.css" />
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="brand">PESSAVA<span>.</span></div>
+            <div class="sub">Admin Panel</div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Main</div>
+            <a href="index.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2" />
+                </svg>Dashboard</a>
+            <a href="orders.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>Orders</a>
+            <a href="products.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" />
+                </svg>Products</a>
+            <a href="add-product.html" class="nav-item active"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>Add Product</a>
+            <a href="users.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5v-2a4 4 0 00-5-5M9 20H4v-2a4 4 0 015-5m4-4a4 4 0 110-8 4 4 0 010 8z" />
+                </svg>Users</a>
+            <a href="reports.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>Reports</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="admin-profile">
+                <div class="avatar">P</div>
+                <div class="profile-info">
+                    <div class="name">Pessava Admin</div>
+                    <div class="role">Super Admin</div>
+                </div>
+            </div>
+            <a href="login.html" class="nav-item" onclick="sessionStorage.removeItem('pessava_admin')"
+                style="margin-top:4px;"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1" />
+                </svg>Logout</a>
+        </div>
+    </aside>
+
+    <div class="main">
+        <header class="topbar">
+            <div class="topbar-title">Add Product</div>
+            <div class="topbar-actions">
+                <a href="products.html" class="btn btn-ghost">← Back to Products</a>
+            </div>
+        </header>
+        <div class="page-content">
+            <div class="grid-2" style="align-items:start;">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Product Details</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">Product Name *</label>
+                            <input type="text" class="form-input" id="pName"
+                                placeholder="e.g. Oversized Drop-Shoulder Tee" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-textarea" id="pDesc" placeholder="Product description..."></textarea>
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Price (₹) *</label>
+                                <input type="number" class="form-input" id="pPrice" placeholder="699" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Original Price (₹)</label>
+                                <input type="number" class="form-input" id="pOldPrice" placeholder="999" />
+                            </div>
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Stock Quantity *</label>
+                                <input type="number" class="form-input" id="pStock" placeholder="50" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">SKU / Product ID</label>
+                                <input type="text" class="form-input" id="pSku" placeholder="PES-001" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card" style="margin-bottom:20px;">
+                        <div class="card-header">
+                            <div class="card-title">Category & Tags</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Category *</label>
+                                <select class="form-select" id="pCategory">
+                                    <option value="">Select Category</option>
+                                    <option>T-Shirts</option>
+                                    <option>Hoodies</option>
+                                    <option>Shirts</option>
+                                    <option>Trousers</option>
+                                    <option>Shorts</option>
+                                    <option>Accessories</option>
+                                    <option>Jackets</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Brand</label>
+                                <input type="text" class="form-input" id="pBrand" placeholder="PESSAVA Originals" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Available Sizes</label>
+                                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;" id="sizePicker">
+                                    <label style="cursor:pointer;" title="XS"><input type="checkbox" value="XS"
+                                            style="display:none" onchange="toggleSize(this)" /><span
+                                            class="size-btn">XS</span></label>
+                                    <label style="cursor:pointer;" title="S"><input type="checkbox" value="S"
+                                            style="display:none" onchange="toggleSize(this)" /><span
+                                            class="size-btn">S</span></label>
+                                    <label style="cursor:pointer;" title="M"><input type="checkbox" value="M"
+                                            style="display:none" onchange="toggleSize(this)" /><span
+                                            class="size-btn">M</span></label>
+                                    <label style="cursor:pointer;" title="L"><input type="checkbox" value="L"
+                                            style="display:none" onchange="toggleSize(this)" /><span
+                                            class="size-btn">L</span></label>
+                                    <label style="cursor:pointer;" title="XL"><input type="checkbox" value="XL"
+                                            style="display:none" onchange="toggleSize(this)" /><span
+                                            class="size-btn">XL</span></label>
+                                    <label style="cursor:pointer;" title="XXL"><input type="checkbox" value="XXL"
+                                            style="display:none" onchange="toggleSize(this)" /><span
+                                            class="size-btn">XXL</span></label>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom:0;">
+                                <label class="form-label">Image URL</label>
+                                <input type="text" class="form-input" id="pImage" placeholder="https://..."
+                                    oninput="previewImg(this.value)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Preview</div>
+                        </div>
+                        <div class="card-body" style="text-align:center;">
+                            <div id="imgPreview"
+                                style="width:100%;height:160px;background:var(--bg);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:48px;margin-bottom:14px;border:1px solid var(--card-border);">
+                                👕</div>
+                            <div style="font-weight:600;font-size:15px;" id="previewName">Product Name</div>
+                            <div style="color:var(--accent);font-family:var(--font-head);font-size:18px;font-weight:800;margin-top:4px;"
+                                id="previewPrice">₹0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:20px;display:flex;gap:12px;justify-content:flex-end;">
+                <a href="products.html" class="btn btn-ghost">Cancel</a>
+                <button class="btn btn-primary" onclick="addProduct()">+ Add Product</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <style>
+        .size-btn {
+            display: inline-block;
+            padding: 5px 12px;
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all .2s
+        }
+
+        input:checked+.size-btn {
+            background: rgba(255, 107, 53, .15);
+            border-color: var(--accent);
+            color: var(--accent)
+        }
+    </style>
+
+    <script>
+        if (sessionStorage.getItem('pessava_admin') !== 'true') window.location.href = 'login.html';
+
+        function showToast(msg, type = 'info') {
+            const t = document.getElementById('toast'); t.textContent = msg; t.className = 'show';
+            t.style.borderColor = type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--card-border)';
+            setTimeout(() => t.className = '', 3000);
+        }
+
+        function toggleSize(el) { el.closest('label').querySelector('.size-btn').style.background = el.checked ? 'rgba(255,107,53,.15)' : ''; }
+
+        function previewImg(url) {
+            const p = document.getElementById('imgPreview');
+            if (url) { p.innerHTML = `<img src="${url}" style="max-height:100%;max-width:100%;border-radius:6px;object-fit:contain;" onerror="this.parentElement.textContent='👕'">`; }
+            else p.textContent = '👕';
+        }
+
+        document.getElementById('pName').addEventListener('input', function () { document.getElementById('previewName').textContent = this.value || 'Product Name'; });
+        document.getElementById('pPrice').addEventListener('input', function () { document.getElementById('previewPrice').textContent = '₹' + (this.value || 0); });
+
+        async function addProduct() {
+            const name = document.getElementById('pName').value.trim();
+            const price = parseFloat(document.getElementById('pPrice').value) || 0;
+            const stock = parseInt(document.getElementById('pStock').value) || 0;
+            const category = document.getElementById('pCategory').value;
+            if (!name || !price) { showToast('⚠ Fill in name and price', 'error'); return; }
+            const sizes = [...document.querySelectorAll('#sizePicker input:checked')].map(e => e.value);
+            const body = {
+                name, price, countInStock: stock, category,
+                description: document.getElementById('pDesc').value,
+                brand: document.getElementById('pBrand').value,
+                sku: document.getElementById('pSku').value,
+                originalPrice: parseFloat(document.getElementById('pOldPrice').value) || null,
+                image: document.getElementById('pImage').value,
+                sizes
+            };
+            try {
+                const r = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+                if (r.ok) { showToast('✅ Product added successfully!', 'success'); setTimeout(() => window.location.href = 'products.html', 1500); }
+                else showToast('❌ Failed to add product', 'error');
+            } catch (e) { showToast('❌ Backend not connected', 'error'); }
+        }
+    </script>
+</body>
+
+</html>

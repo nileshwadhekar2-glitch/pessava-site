@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Orders — PESSAVA Admin</title>
+    <link rel="stylesheet" href="css/admin.css" />
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="brand">PESSAVA<span>.</span></div>
+            <div class="sub">Admin Panel</div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Main</div>
+            <a href="index.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2" />
+                </svg>Dashboard</a>
+            <a href="orders.html" class="nav-item active"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>Orders</a>
+            <a href="products.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" />
+                </svg>Products</a>
+            <a href="add-product.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>Add Product</a>
+            <a href="users.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5v-2a4 4 0 00-5-5M9 20H4v-2a4 4 0 015-5m4-4a4 4 0 110-8 4 4 0 010 8z" />
+                </svg>Users</a>
+            <a href="reports.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>Reports</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="admin-profile">
+                <div class="avatar">P</div>
+                <div class="profile-info">
+                    <div class="name">Pessava Admin</div>
+                    <div class="role">Super Admin</div>
+                </div>
+            </div>
+            <a href="login.html" class="nav-item" onclick="sessionStorage.removeItem('pessava_admin')"
+                style="margin-top:4px;"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1" />
+                </svg>Logout</a>
+        </div>
+    </aside>
+
+    <div class="main">
+        <header class="topbar">
+            <div class="topbar-title">Orders</div>
+            <div class="topbar-actions"><a href="../index.html" class="btn btn-ghost" target="_blank">View Site ↗</a>
+            </div>
+        </header>
+        <div class="page-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">All Orders</div>
+                    <span id="orderCount" style="font-size:13px;color:var(--text-muted);"></span>
+                </div>
+                <div class="card-body" style="padding-bottom:0;">
+                    <div class="search-bar">
+                        <input type="text" class="search-input" id="orderSearch"
+                            placeholder="Search by order ID or customer..." oninput="filterOrders()" />
+                        <select class="filter-select" id="statusFilter" onchange="filterOrders()">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="processing">Processing</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="delivered">Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersBody">
+                            <tr>
+                                <td colspan="7" style="text-align:center;color:var(--text-muted);padding:40px;">Loading
+                                    orders...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="statusModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Update Order Status</div><button class="modal-close"
+                    onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <p style="color:var(--text-secondary);font-size:13px;margin-bottom:16px;">Order: <strong
+                        id="modalOrderId"></strong></p>
+                <div class="form-group"><label class="form-label">New Status</label>
+                    <select class="form-select" id="newStatus">
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button
+                    class="btn btn-primary" onclick="updateOrderStatus()">Update Status</button></div>
+        </div>
+    </div>
+    <div id="toast"></div>
+
+    <script>
+        if (sessionStorage.getItem('pessava_admin') !== 'true') window.location.href = 'login.html';
+        const API = '/api'; let allOrders = []; let currentOrderId = null;
+        function showToast(msg, type = 'info') { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'show'; t.style.borderColor = type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--card-border)'; setTimeout(() => t.className = '', 3000); }
+        function statusBadge(s) { const m = { delivered: 'badge-success', paid: 'badge-success', pending: 'badge-warning', processing: 'badge-info', cancelled: 'badge-danger', shipped: 'badge-info' }; return `<span class="badge ${m[(s || 'pending').toLowerCase()] || 'badge-muted'}">${s || 'Pending'}</span>`; }
+        async function loadOrders() {
+            try { const r = await fetch(`${API}/orders`); const data = await r.json(); allOrders = Array.isArray(data) ? data : (data.orders || []); document.getElementById('orderCount').textContent = `${allOrders.length} total`; renderOrders(allOrders); }
+            catch (e) { document.getElementById('ordersBody').innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:40px;">⚠ Connect backend to see orders</td></tr>'; }
+        }
+        function renderOrders(list) {
+            const tbody = document.getElementById('ordersBody');
+            if (!list.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:40px;">No orders found</td></tr>'; return; }
+            tbody.innerHTML = list.map(o => `<tr>
+    <td class="bold">#${(o._id || o.id || '').toString().slice(-6).toUpperCase()}</td>
+    <td>${o.user?.name || o.customerName || 'Guest'}</td>
+    <td>${(o.orderItems || o.items || []).length} item(s)</td>
+    <td class="bold">₹${(o.totalPrice || o.total || 0).toLocaleString('en-IN')}</td>
+    <td>${o.createdAt ? new Date(o.createdAt).toLocaleDateString('en-IN') : '—'}</td>
+    <td>${statusBadge(o.status)}</td>
+    <td><div class="action-btns"><button class="action-btn" onclick="openStatusModal('${o._id || o.id}','${o.status || 'pending'}')">✏️</button></div></td>
+  </tr>`).join('');
+        }
+        function filterOrders() {
+            const q = document.getElementById('orderSearch').value.toLowerCase();
+            const s = document.getElementById('statusFilter').value.toLowerCase();
+            renderOrders(allOrders.filter(o => {
+                const id = (o._id || o.id || '').toString().toLowerCase();
+                const name = (o.user?.name || o.customerName || '').toLowerCase();
+                return (!q || id.includes(q) || name.includes(q)) && (!s || (o.status || '').toLowerCase() === s);
+            }));
+        }
+        function openStatusModal(id, cur) { currentOrderId = id; document.getElementById('modalOrderId').textContent = '#' + id.toString().slice(-6).toUpperCase(); document.getElementById('newStatus').value = cur || 'pending'; document.getElementById('statusModal').classList.add('open'); }
+        function closeModal() { document.getElementById('statusModal').classList.remove('open'); currentOrderId = null; }
+        async function updateOrderStatus() {
+            if (!currentOrderId) return;
+            const status = document.getElementById('newStatus').value;
+            try {
+                const r = await fetch(`${API}/orders/${currentOrderId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) });
+                if (r.ok) { const idx = allOrders.findIndex(o => (o._id || o.id) == currentOrderId); if (idx > -1) allOrders[idx].status = status; renderOrders(allOrders); showToast('✅ Order updated!', 'success'); closeModal(); }
+                else showToast('❌ Update failed', 'error');
+            } catch (e) { showToast('❌ Backend not connected', 'error'); closeModal(); }
+        }
+        loadOrders();
+    </script>
+</body>
+
+</html>

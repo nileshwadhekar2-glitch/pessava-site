@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Admin Login — PESSAVA</title>
+  <link rel="stylesheet" href="css/admin.css"/>
+</head>
+<body>
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-logo">PESSAVA<span>.</span></div>
+    <div class="login-sub">Admin Panel — Restricted Access</div>
+    <div class="login-error" id="loginError">❌ Wrong email or password</div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-input" id="loginEmail" placeholder="pessava2025@gmail.com"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-input" id="loginPass" placeholder="••••••••"/>
+    </div>
+    <button class="login-btn" onclick="doLogin()">Login to Dashboard</button>
+    <p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:20px;">
+      Email: pessava2025@gmail.com
+    </p>
+  </div>
+</div>
+<script>
+  if(sessionStorage.getItem('pessava_admin')==='true') window.location.href='index.html';
+  function doLogin(){
+    const email=document.getElementById('loginEmail').value.trim();
+    const pass=document.getElementById('loginPass').value;
+    const err=document.getElementById('loginError');
+    // Add your password below — replace admin123 with whatever you want
+    const ADMIN_EMAIL='pessava2025@gmail.com';
+    const ADMIN_PASS='admin123';
+    if(email===ADMIN_EMAIL && pass===ADMIN_PASS){
+      sessionStorage.setItem('pessava_admin','true');
+      window.location.href='index.html';
+    } else {
+      err.style.display='block';
+      setTimeout(()=>err.style.display='none',3000);
+    }
+  }
+  document.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+</script>
+</body>
+</html>

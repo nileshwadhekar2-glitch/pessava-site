@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Users — PESSAVA Admin</title>
+    <link rel="stylesheet" href="css/admin.css" />
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="brand">PESSAVA<span>.</span></div>
+            <div class="sub">Admin Panel</div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Main</div>
+            <a href="index.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2" />
+                </svg>Dashboard</a>
+            <a href="orders.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>Orders</a>
+            <a href="products.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" />
+                </svg>Products</a>
+            <a href="add-product.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>Add Product</a>
+            <a href="users.html" class="nav-item active"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5v-2a4 4 0 00-5-5M9 20H4v-2a4 4 0 015-5m4-4a4 4 0 110-8 4 4 0 010 8z" />
+                </svg>Users</a>
+            <a href="reports.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>Reports</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="admin-profile">
+                <div class="avatar">P</div>
+                <div class="profile-info">
+                    <div class="name">Pessava Admin</div>
+                    <div class="role">Super Admin</div>
+                </div>
+            </div>
+            <a href="login.html" class="nav-item" onclick="sessionStorage.removeItem('pessava_admin')"
+                style="margin-top:4px;"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1" />
+                </svg>Logout</a>
+        </div>
+    </aside>
+
+    <div class="main">
+        <header class="topbar">
+            <div class="topbar-title">Users</div>
+            <div class="topbar-actions"><a href="../index.html" class="btn btn-ghost" target="_blank">View Site ↗</a>
+            </div>
+        </header>
+        <div class="page-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">All Customers</div><span id="userCount"
+                        style="font-size:13px;color:var(--text-muted);"></span>
+                </div>
+                <div class="card-body" style="padding-bottom:0;">
+                    <div class="search-bar">
+                        <input type="text" class="search-input" id="userSearch" placeholder="Search by name or email..."
+                            oninput="filterUsers()" />
+                        <select class="filter-select" id="roleFilter" onchange="filterUsers()">
+                            <option value="">All Roles</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">Customer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersBody">
+                            <tr>
+                                <td colspan="5" style="text-align:center;color:var(--text-muted);padding:40px;">Loading
+                                    users...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="userModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">User Details</div><button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body" id="userModalBody"></div>
+            <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal()">Close</button></div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal" style="max-width:380px;">
+            <div class="modal-header">
+                <div class="modal-title">Delete User?</div><button class="modal-close"
+                    onclick="closeDeleteModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <p style="color:var(--text-secondary);font-size:14px;">Delete <strong id="deleteUserName"></strong>?
+                    This cannot be undone.</p>
+            </div>
+            <div class="modal-footer"><button class="btn btn-ghost" onclick="closeDeleteModal()">Cancel</button><button
+                    class="btn btn-danger" onclick="confirmDelete()">Delete</button></div>
+        </div>
+    </div>
+    <div id="toast"></div>
+
+    <script>
+        if (sessionStorage.getItem('pessava_admin') !== 'true') window.location.href = 'login.html';
+        const API = '/api'; let allUsers = []; let deleteId = null;
+        function showToast(msg, type = 'info') { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'show'; t.style.borderColor = type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--card-border)'; setTimeout(() => t.className = '', 3000); }
+        async function loadUsers() {
+            try { const r = await fetch(`${API}/users`); const data = await r.json(); allUsers = Array.isArray(data) ? data : (data.users || []); document.getElementById('userCount').textContent = `${allUsers.length} total`; renderUsers(allUsers); }
+            catch (e) { document.getElementById('usersBody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:40px;">⚠ Connect backend to see users</td></tr>'; }
+        }
+        function renderUsers(list) {
+            const tbody = document.getElementById('usersBody');
+            if (!list.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:40px;">No users found</td></tr>'; return; }
+            tbody.innerHTML = list.map(u => {
+                const isAdmin = u.isAdmin || u.role === 'admin';
+                const ini = (u.name || 'U').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+                return `<tr>
+      <td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar" style="width:32px;height:32px;font-size:12px;">${ini}</div><span class="bold">${u.name || 'User'}</span></div></td>
+      <td style="color:var(--text-secondary);">${u.email || '—'}</td>
+      <td><span class="badge ${isAdmin ? 'badge-info' : 'badge-muted'}">${isAdmin ? 'Admin' : 'Customer'}</span></td>
+      <td style="color:var(--text-secondary);">${u.createdAt ? new Date(u.createdAt).toLocaleDateString('en-IN') : '—'}</td>
+      <td><div class="action-btns">
+        <button class="action-btn" onclick='openUserModal(${JSON.stringify(u)})'>👁️</button>
+        <button class="action-btn del" onclick="openDeleteModal('${u._id || u.id}','${u.name || 'user'}')">🗑️</button>
+      </div></td>
+    </tr>`;
+            }).join('');
+        }
+        function filterUsers() {
+            const q = document.getElementById('userSearch').value.toLowerCase();
+            const r = document.getElementById('roleFilter').value;
+            renderUsers(allUsers.filter(u => {
+                const matchQ = !q || (u.name || '').toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q);
+                const isAdmin = u.isAdmin || u.role === 'admin';
+                return matchQ && (!r || (r === 'admin' ? isAdmin : !isAdmin));
+            }));
+        }
+        function openUserModal(u) {
+            const isAdmin = u.isAdmin || u.role === 'admin';
+            document.getElementById('userModalBody').innerHTML = `
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+      <div class="avatar" style="width:52px;height:52px;font-size:18px;">${(u.name || 'U').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)}</div>
+      <div><div style="font-size:18px;font-weight:700;">${u.name || 'User'}</div><div style="font-size:13px;color:var(--text-muted);">${u.email || ''}</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:var(--bg);border-radius:8px;padding:12px;"><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">ROLE</div><span class="badge ${isAdmin ? 'badge-info' : 'badge-muted'}">${isAdmin ? 'Admin' : 'Customer'}</span></div>
+      <div style="background:var(--bg);border-radius:8px;padding:12px;"><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">JOINED</div><div style="font-size:13px;">${u.createdAt ? new Date(u.createdAt).toLocaleDateString('en-IN') : '—'}</div></div>
+    </div>`;
+            document.getElementById('userModal').classList.add('open');
+        }
+        function closeModal() { document.getElementById('userModal').classList.remove('open'); }
+        function openDeleteModal(id, name) { deleteId = id; document.getElementById('deleteUserName').textContent = name; document.getElementById('deleteModal').classList.add('open'); }
+        function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('open'); deleteId = null; }
+        async function confirmDelete() {
+            if (!deleteId) return;
+            try {
+                const r = await fetch(`${API}/users/${deleteId}`, { method: 'DELETE' });
+                if (r.ok) { showToast('🗑 User deleted', 'success'); closeDeleteModal(); loadUsers(); } else showToast('❌ Failed', 'error');
+            } catch (e) { showToast('❌ Backend not connected', 'error'); closeDeleteModal(); }
+        }
+        loadUsers();
+    </script>
+</body>
+
+</html>

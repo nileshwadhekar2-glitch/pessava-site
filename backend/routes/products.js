@@ -2,25 +2,17 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
 
-// GET all products
 router.get('/', async (req, res) => {
   try {
     const { category, sort, search } = req.query;
     let query = { isActive: true };
-
-    if (category && category !== 'all') {
-      query.category = category;
-    }
-    if (search) {
-      query.name = { $regex: search, $options: 'i' };
-    }
-
+    if (category && category !== 'all') query.category = category;
+    if (search) query.name = { $regex: search, $options: 'i' };
     let sortOption = { createdAt: -1 };
     if (sort === 'price_low') sortOption = { price: 1 };
     if (sort === 'price_high') sortOption = { price: -1 };
     if (sort === 'popular') sortOption = { reviews: -1 };
     if (sort === 'rating') sortOption = { rating: -1 };
-
     const products = await Product.find(query).sort(sortOption);
     res.json({ success: true, products });
   } catch (err) {
@@ -28,50 +20,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET single product
-router.get('/:id', async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
-    res.json({ success: true, product });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-// POST add product (admin only - add auth middleware later)
-router.post('/', async (req, res) => {
-  try {
-    const product = new Product(req.body);
-    await product.save();
-    res.status(201).json({ success: true, product });
-  } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
-  }
-});
-
-// PUT update product
-router.put('/:id', async (req, res) => {
-  try {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json({ success: true, product });
-  } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
-  }
-});
-
-// DELETE product
-router.delete('/:id', async (req, res) => {
-  try {
-    await Product.findByIdAndUpdate(req.params.id, { isActive: false });
-    res.json({ success: true, message: 'Product removed' });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-// Seed dummy products
-router.post('/seed/add', async (req, res) => {
+router.get('/seed/add', async (req, res) => {
   try {
     const dummyProducts = [
       { name: 'Acid Wash Oversized Drop-Shoulder Tee', brand: 'PESSAVA Originals', price: 699, originalPrice: 999, category: 'tshirts', sizes: ['S','M','L','XL'], colors: ['Black','White','Red'], emoji: '👕', rating: 4.3, reviews: 812, badge: 'SALE' },
@@ -85,6 +34,44 @@ router.post('/seed/add', async (req, res) => {
     ];
     await Product.insertMany(dummyProducts);
     res.json({ success: true, message: '8 products added!' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
+    res.json({ success: true, product });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+router.post('/', async (req, res) => {
+  try {
+    const product = new Product(req.body);
+    await product.save();
+    res.status(201).json({ success: true, product });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+});
+
+router.put('/:id', async (req, res) => {
+  try {
+    const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json({ success: true, product });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  try {
+    await Product.findByIdAndUpdate(req.params.id, { isActive: false });
+    res.json({ success: true, message: 'Product removed' });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Reports — PESSAVA Admin</title>
+    <link rel="stylesheet" href="css/admin.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="brand">PESSAVA<span>.</span></div>
+            <div class="sub">Admin Panel</div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Main</div>
+            <a href="index.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2" />
+                </svg>Dashboard</a>
+            <a href="orders.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>Orders</a>
+            <a href="products.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" />
+                </svg>Products</a>
+            <a href="add-product.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>Add Product</a>
+            <a href="users.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5v-2a4 4 0 00-5-5M9 20H4v-2a4 4 0 015-5m4-4a4 4 0 110-8 4 4 0 010 8z" />
+                </svg>Users</a>
+            <a href="reports.html" class="nav-item active"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>Reports</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="admin-profile">
+                <div class="avatar">P</div>
+                <div class="profile-info">
+                    <div class="name">Pessava Admin</div>
+                    <div class="role">Super Admin</div>
+                </div>
+            </div>
+            <a href="login.html" class="nav-item" onclick="sessionStorage.removeItem('pessava_admin')"
+                style="margin-top:4px;"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1" />
+                </svg>Logout</a>
+        </div>
+    </aside>
+
+    <div class="main">
+        <header class="topbar">
+            <div class="topbar-title">Reports</div>
+            <div class="topbar-actions">
+                <button class="btn btn-ghost" onclick="window.print()">🖨️ Print</button>
+            </div>
+        </header>
+        <div class="page-content">
+
+            <!-- SUMMARY NUMBERS -->
+            <div class="stats-grid" style="margin-bottom:24px;">
+                <div class="stat-card orange">
+                    <div class="stat-card-row">
+                        <div>
+                            <div class="stat-label">Total Revenue</div>
+                            <div class="stat-value">₹4,58,000</div>
+                        </div>
+                        <div class="stat-icon orange">💰</div>
+                    </div>
+                    <div class="stat-change up">+18% vs last year</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-card-row">
+                        <div>
+                            <div class="stat-label">Net Profit</div>
+                            <div class="stat-value">₹1,60,300</div>
+                        </div>
+                        <div class="stat-icon green">📈</div>
+                    </div>
+                    <div class="stat-change up">+35% vs last year</div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-card-row">
+                        <div>
+                            <div class="stat-label">Total Orders</div>
+                            <div class="stat-value">487</div>
+                        </div>
+                        <div class="stat-icon purple">📦</div>
+                    </div>
+                    <div class="stat-change up">+22% vs last year</div>
+                </div>
+                <div class="stat-card blue">
+                    <div class="stat-card-row">
+                        <div>
+                            <div class="stat-label">Avg Order Value</div>
+                            <div class="stat-value">₹940</div>
+                        </div>
+                        <div class="stat-icon blue">🛒</div>
+                    </div>
+                    <div class="stat-change down">-5% vs last year</div>
+                </div>
+            </div>
+
+            <!-- LINE CHART -->
+            <div class="card" style="margin-bottom:24px;">
+                <div class="card-header">
+                    <div class="card-title">Revenue Over Time</div>
+                    <div class="chart-tabs">
+                        <button class="chart-tab active">2025</button>
+                        <button class="chart-tab">2024</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="lineChart" height="120"></canvas>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <!-- CATEGORY PIE -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Sales by Category</div>
+                    </div>
+                    <div class="card-body" style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+                        <div style="width:180px;height:180px;flex-shrink:0;"><canvas id="pieChart"></canvas></div>
+                        <div id="pieLegend"></div>
+                    </div>
+                </div>
+
+                <!-- ORDER STATUS -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Order Status Breakdown</div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="statusChart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        if (sessionStorage.getItem('pessava_admin') !== 'true') window.location.href = 'login.html';
+
+        // Line chart
+        new Chart(document.getElementById('lineChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Revenue (₹)',
+                    data: [28000, 42000, 38000, 55000, 72000, 48000, 65000, 58000, 70000, 88000, 76000, 75000],
+                    borderColor: '#ff6b35', backgroundColor: 'rgba(255,107,53,0.1)', fill: true,
+                    tension: .4, pointBackgroundColor: '#ff6b35', pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: '#8b8a9b', font: { size: 12 } } } },
+                scales: {
+                    x: { grid: { color: 'rgba(42,42,56,0.5)' }, ticks: { color: '#8b8a9b' } },
+                    y: { grid: { color: 'rgba(42,42,56,0.5)' }, ticks: { color: '#8b8a9b', callback: v => '₹' + v.toLocaleString('en-IN') } }
+                }
+            }
+        });
+
+        // Pie chart
+        const catLabels = ['T-Shirts', 'Hoodies', 'Shirts', 'Trousers', 'Others'];
+        const catData = [35, 25, 18, 12, 10];
+        const catColors = ['#ff6b35', '#7c3aed', '#22c55e', '#3b82f6', '#f59e0b'];
+        new Chart(document.getElementById('pieChart').getContext('2d'), {
+            type: 'doughnut',
+            data: { labels: catLabels, datasets: [{ data: catData, backgroundColor: catColors, borderWidth: 0, hoverOffset: 6 }] },
+            options: { responsive: true, cutout: '60%', plugins: { legend: { display: false } } }
+        });
+        // legend
+        document.getElementById('pieLegend').innerHTML = catLabels.map((l, i) => `
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+    <div style="width:10px;height:10px;border-radius:50%;background:${catColors[i]};flex-shrink:0;"></div>
+    <span style="font-size:13px;color:var(--text-secondary);">${l}</span>
+    <span style="margin-left:auto;font-size:13px;font-weight:600;color:var(--text-primary);padding-left:16px;">${catData[i]}%</span>
+  </div>`).join('');
+
+        // Status bar chart
+        new Chart(document.getElementById('statusChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Delivered', 'Processing', 'Pending', 'Shipped', 'Cancelled'],
+                datasets: [{
+                    data: [220, 85, 62, 74, 46],
+                    backgroundColor: ['#22c55e', '#3b82f6', '#f59e0b', '#7c3aed', '#ef4444'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: '#8b8a9b' } },
+                    y: { grid: { color: 'rgba(42,42,56,0.5)' }, ticks: { color: '#8b8a9b' } }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

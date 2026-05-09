@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Dashboard — PESSAVA Admin</title>
+  <link rel="stylesheet" href="css/admin.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">PESSAVA<span>.</span></div>
+    <div class="sub">Admin Panel</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-label">Main</div>
+    <a href="index.html" class="nav-item active">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2"/></svg>
+      Dashboard
+    </a>
+    <a href="orders.html" class="nav-item">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      Orders
+      <span class="badge" id="pendingBadge">0</span>
+    </a>
+    <a href="products.html" class="nav-item">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/></svg>
+      Products
+    </a>
+    <a href="add-product.html" class="nav-item">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+      Add Product
+    </a>
+    <a href="users.html" class="nav-item">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-5-5M9 20H4v-2a4 4 0 015-5m4-4a4 4 0 110-8 4 4 0 010 8z"/></svg>
+      Users
+    </a>
+    <a href="reports.html" class="nav-item">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      Reports
+    </a>
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="admin-profile">
+      <div class="avatar">P</div>
+      <div class="profile-info"><div class="name">Pessava Admin</div><div class="role">Super Admin</div></div>
+    </div>
+    <a href="login.html" class="nav-item" onclick="sessionStorage.removeItem('pessava_admin')" style="margin-top:4px;">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"/></svg>
+      Logout
+    </a>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-title">Dashboard</div>
+    <div class="topbar-actions">
+      <div class="notif-btn"><div class="notif-dot"></div>🔔</div>
+      <a href="../index.html" class="btn btn-ghost" target="_blank">View Site ↗</a>
+    </div>
+  </header>
+
+  <div class="page-content">
+
+    <!-- TOP 4 STAT CARDS -->
+    <div class="stats-grid">
+      <div class="stat-card orange">
+        <div class="stat-card-row">
+          <div>
+            <div class="stat-label">Total Sales</div>
+            <div class="stat-value" id="totalSales">₹0</div>
+          </div>
+          <div class="stat-icon orange">💰</div>
+        </div>
+        <div class="stat-change up" id="salesChange">+5% since last month</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-card-row">
+          <div>
+            <div class="stat-label">Total Orders</div>
+            <div class="stat-value" id="totalOrders">0</div>
+          </div>
+          <div class="stat-icon purple">📦</div>
+        </div>
+        <div class="stat-change up" id="ordersChange">Loading...</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-card-row">
+          <div>
+            <div class="stat-label">Total Products</div>
+            <div class="stat-value" id="totalProducts">0</div>
+          </div>
+          <div class="stat-icon green">👕</div>
+        </div>
+        <div class="stat-change up">Active listings</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-card-row">
+          <div>
+            <div class="stat-label">Customers</div>
+            <div class="stat-value" id="totalUsers">0</div>
+          </div>
+          <div class="stat-icon blue">👥</div>
+        </div>
+        <div class="stat-change up">Registered users</div>
+      </div>
+    </div>
+
+    <!-- SUMMARY CARDS -->
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="s-top">
+          <div>
+            <div class="s-value" id="totalProfit">₹0</div>
+            <div class="s-label">Total Profit</div>
+          </div>
+          <div class="s-icon">📈</div>
+        </div>
+        <div class="s-change">
+          <span class="stat-change up">+35% vs Last Month</span>
+          <a href="reports.html" class="s-link">View</a>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="s-top">
+          <div>
+            <div class="s-value" id="totalReturns">₹0</div>
+            <div class="s-label">Total Payment Returns</div>
+          </div>
+          <div class="s-icon">↩️</div>
+        </div>
+        <div class="s-change">
+          <span class="stat-change down">-20% vs Last Month</span>
+          <a href="reports.html" class="s-link">View</a>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="s-top">
+          <div>
+            <div class="s-value" id="totalExpenses">₹0</div>
+            <div class="s-label">Total Expenses</div>
+          </div>
+          <div class="s-icon">💸</div>
+        </div>
+        <div class="s-change">
+          <span class="stat-change down">-20% vs Last Month</span>
+          <a href="reports.html" class="s-link">View</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHARTS ROW -->
+    <div class="grid-2" style="margin-bottom:24px;">
+
+      <!-- BAR CHART -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Sales vs Purchase</div>
+          <div class="chart-tabs">
+            <button class="chart-tab active" onclick="switchBar('year',this)">This Year</button>
+            <button class="chart-tab" onclick="switchBar('month',this)">This Month</button>
+            <button class="chart-tab" onclick="switchBar('week',this)">This Week</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <canvas id="barChart" height="220"></canvas>
+        </div>
+      </div>
+
+      <!-- DONUT CHART + STATS -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Overall Information</div>
+          <div class="chart-tabs">
+            <button class="chart-tab active" onclick="switchDonut('6m',this)">Last 6 Months</button>
+            <button class="chart-tab" onclick="switchDonut('1m',this)">This Month</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">Customers Overview</p>
+          <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+            <div style="width:140px;height:140px;flex-shrink:0;">
+              <canvas id="donutChart"></canvas>
+            </div>
+            <div>
+              <div style="margin-bottom:14px;">
+                <div style="font-family:var(--font-head);font-size:24px;font-weight:800;" id="firstTimeCount">5.5K</div>
+                <div style="font-size:12px;color:var(--text-muted);">First Time</div>
+                <span class="badge badge-success" style="margin-top:4px;">↑ 25%</span>
+              </div>
+              <div>
+                <div style="font-family:var(--font-head);font-size:24px;font-weight:800;" id="returnCount">3.5K</div>
+                <div style="font-size:12px;color:var(--text-muted);">Return</div>
+                <span class="badge badge-success" style="margin-top:4px;">↑ 21%</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid var(--card-border);">
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-head);font-size:18px;font-weight:800;" id="suppliersCount">0</div>
+              <div style="font-size:11px;color:var(--text-muted);">Suppliers</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-head);font-size:18px;font-weight:800;" id="customersCount">0</div>
+              <div style="font-size:11px;color:var(--text-muted);">Customers</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-head);font-size:18px;font-weight:800;" id="ordersCount2">0</div>
+              <div style="font-size:11px;color:var(--text-muted);">Orders</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOP SELLING + RECENT SALES + LOW STOCK -->
+    <div class="grid-3" style="margin-bottom:24px;">
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Top Selling Products</div>
+          <div class="chart-tabs"><button class="chart-tab active">Today</button></div>
+        </div>
+        <div class="card-body" id="topSellingList">
+          <div style="text-align:center;color:var(--text-muted);font-size:13px;padding:20px 0;">Connect backend to see data</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Recent Sales</div>
+          <div class="chart-tabs"><button class="chart-tab active">Weekly</button></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Product</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody id="recentSalesBody">
+              <tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:30px;">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Low Stock</div>
+          <a href="products.html" class="btn btn-ghost" style="padding:5px 12px;font-size:11px;">View All</a>
+        </div>
+        <div class="card-body" id="lowStockList">
+          <div style="text-align:center;color:var(--text-muted);font-size:13px;padding:20px 0;">Loading...</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+if(sessionStorage.getItem('pessava_admin')!=='true') window.location.href='login.html';
+
+const API='/api';
+
+function showToast(msg,type='info'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='show';
+  t.style.borderColor=type==='success'?'var(--success)':type==='error'?'var(--danger)':'var(--card-border)';
+  setTimeout(()=>t.className='',3000);
+}
+
+function statusBadge(s){
+  const m={delivered:'badge-success',paid:'badge-success',pending:'badge-warning',processing:'badge-info',cancelled:'badge-danger',shipped:'badge-info'};
+  return `<span class="badge ${m[(s||'pending').toLowerCase()]||'badge-muted'}">${s||'Pending'}</span>`;
+}
+
+// ── BAR CHART ──
+const barData={
+  year:{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    sales:[42,68,55,80,95,50,88,65,78,105,92,85],
+    purchase:[30,45,40,60,70,45,65,50,55,80,70,60]
+  },
+  month:{
+    labels:['W1','W2','W3','W4'],
+    sales:[18,24,30,22],purchase:[12,18,22,16]
+  },
+  week:{
+    labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+    sales:[8,12,10,14,18,22,15],purchase:[5,8,7,10,12,15,10]
+  }
+};
+
+let barChart=null;
+function buildBar(key){
+  const d=barData[key];
+  const ctx=document.getElementById('barChart').getContext('2d');
+  if(barChart)barChart.destroy();
+  barChart=new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:d.labels,
+      datasets:[
+        {label:'Sales',data:d.sales,backgroundColor:'rgba(255,107,53,0.85)',borderRadius:4,borderSkipped:false},
+        {label:'Purchase',data:d.purchase,backgroundColor:'rgba(255,107,53,0.25)',borderRadius:4,borderSkipped:false}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#8b8a9b',font:{size:12},boxWidth:12}}},
+      scales:{
+        x:{grid:{color:'rgba(42,42,56,0.5)'},ticks:{color:'#8b8a9b'}},
+        y:{grid:{color:'rgba(42,42,56,0.5)'},ticks:{color:'#8b8a9b'}}
+      }
+    }
+  });
+}
+
+function switchBar(key,el){
+  document.querySelectorAll('#barChart').forEach(()=>{});
+  el.closest('.chart-tabs').querySelectorAll('.chart-tab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  buildBar(key);
+}
+
+// ── DONUT CHART ──
+let donutChart=null;
+function buildDonut(ft,rt){
+  const ctx=document.getElementById('donutChart').getContext('2d');
+  if(donutChart)donutChart.destroy();
+  donutChart=new Chart(ctx,{
+    type:'doughnut',
+    data:{
+      labels:['First Time','Return'],
+      datasets:[{data:[ft,rt],backgroundColor:['#ff6b35','#22c55e','#f59e0b'],borderWidth:0,hoverOffset:4}]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:true,cutout:'72%',
+      plugins:{legend:{display:false}}
+    }
+  });
+}
+
+function switchDonut(key,el){
+  el.closest('.chart-tabs').querySelectorAll('.chart-tab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  if(key==='6m'){buildDonut(5500,3500);document.getElementById('firstTimeCount').textContent='5.5K';document.getElementById('returnCount').textContent='3.5K';}
+  else{buildDonut(1200,800);document.getElementById('firstTimeCount').textContent='1.2K';document.getElementById('returnCount').textContent='0.8K';}
+}
+
+// ── LOAD DATA ──
+async function loadDashboard(){
+  try{
+    const r=await fetch(`${API}/orders`);
+    const data=await r.json();
+    const orders=Array.isArray(data)?data:(data.orders||[]);
+    const total=orders.reduce((s,o)=>s+(o.totalPrice||o.total||0),0);
+    const pending=orders.filter(o=>(o.status||'').toLowerCase()==='pending').length;
+    document.getElementById('totalOrders').textContent=orders.length;
+    document.getElementById('ordersCount2').textContent=orders.length;
+    document.getElementById('totalSales').textContent='₹'+total.toLocaleString('en-IN');
+    document.getElementById('totalProfit').textContent='₹'+Math.round(total*0.35).toLocaleString('en-IN');
+    document.getElementById('totalReturns').textContent='₹'+Math.round(total*0.05).toLocaleString('en-IN');
+    document.getElementById('totalExpenses').textContent='₹'+Math.round(total*0.15).toLocaleString('en-IN');
+    document.getElementById('ordersChange').textContent=pending+' pending';
+    document.getElementById('pendingBadge').textContent=pending;
+    // Recent sales
+    const rs=orders.slice(-5).reverse();
+    document.getElementById('recentSalesBody').innerHTML=rs.length?rs.map(o=>`
+      <tr>
+        <td class="bold">#${(o._id||o.id||'').toString().slice(-6).toUpperCase()}</td>
+        <td>₹${(o.totalPrice||o.total||0).toLocaleString('en-IN')}</td>
+        <td>${statusBadge(o.status)}</td>
+      </tr>`).join(''):'<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:30px;">No orders yet</td></tr>';
+  }catch(e){
+    document.getElementById('recentSalesBody').innerHTML='<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:24px;">Backend not connected</td></tr>';
+  }
+
+  try{
+    const r=await fetch(`${API}/products`);
+    const data=await r.json();
+    const prods=Array.isArray(data)?data:(data.products||[]);
+    document.getElementById('totalProducts').textContent=prods.length;
+    // Top selling
+    const top=prods.slice(0,5);
+    document.getElementById('topSellingList').innerHTML=top.length?top.map((p,i)=>`
+      <div class="top-item">
+        <div class="top-item-rank">${i+1}</div>
+        <div class="top-item-info">
+          <div class="name">${p.name||'Product'}</div>
+          <div class="meta">₹${(p.price||0).toLocaleString('en-IN')} &bull; ${p.countInStock||p.stock||0} units</div>
+        </div>
+        <div class="top-item-pct">${Math.round(Math.random()*20+10)}%</div>
+      </div>`).join(''):'<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:20px 0;">No products yet</div>';
+    // Low stock
+    const low=prods.filter(p=>(p.countInStock||p.stock||0)<=10).slice(0,5);
+    document.getElementById('lowStockList').innerHTML=low.length?low.map(p=>`
+      <div class="top-item">
+        <div class="prod-thumb">👕</div>
+        <div class="top-item-info">
+          <div class="name">${p.name||'Product'}</div>
+          <div class="meta">ID: #${(p._id||p.id||'').toString().slice(-6)}</div>
+        </div>
+        <span class="badge badge-danger">${p.countInStock||p.stock||0} left</span>
+      </div>`).join(''):'<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:20px 0;">All products in stock</div>';
+  }catch(e){
+    document.getElementById('lowStockList').innerHTML='<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:20px 0;">Backend not connected</div>';
+  }
+
+  try{
+    const r=await fetch(`${API}/users`);
+    const data=await r.json();
+    const users=Array.isArray(data)?data:(data.users||[]);
+    document.getElementById('totalUsers').textContent=users.length;
+    document.getElementById('customersCount').textContent=users.length;
+    document.getElementById('suppliersCount').textContent=Math.max(1,Math.floor(users.length*0.1));
+  }catch(e){}
+}
+
+buildBar('year');
+buildDonut(5500,3500);
+loadDashboard();
+</script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Products — PESSAVA Admin</title>
+    <link rel="stylesheet" href="css/admin.css" />
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="brand">PESSAVA<span>.</span></div>
+            <div class="sub">Admin Panel</div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Main</div>
+            <a href="index.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2" />
+                </svg>Dashboard</a>
+            <a href="orders.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>Orders</a>
+            <a href="products.html" class="nav-item active"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" />
+                </svg>Products</a>
+            <a href="add-product.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>Add Product</a>
+            <a href="users.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5v-2a4 4 0 00-5-5M9 20H4v-2a4 4 0 015-5m4-4a4 4 0 110-8 4 4 0 010 8z" />
+                </svg>Users</a>
+            <a href="reports.html" class="nav-item"><svg class="icon" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>Reports</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="admin-profile">
+                <div class="avatar">P</div>
+                <div class="profile-info">
+                    <div class="name">Pessava Admin</div>
+                    <div class="role">Super Admin</div>
+                </div>
+            </div>
+            <a href="login.html" class="nav-item" onclick="sessionStorage.removeItem('pessava_admin')"
+                style="margin-top:4px;"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1" />
+                </svg>Logout</a>
+        </div>
+    </aside>
+
+    <div class="main">
+        <header class="topbar">
+            <div class="topbar-title">Products</div>
+            <div class="topbar-actions">
+                <a href="add-product.html" class="btn btn-primary">+ Add Product</a>
+                <a href="../index.html" class="btn btn-ghost" target="_blank">View Site ↗</a>
+            </div>
+        </header>
+        <div class="page-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">All Products</div><span id="prodCount"
+                        style="font-size:13px;color:var(--text-muted);"></span>
+                </div>
+                <div class="card-body" style="padding-bottom:0;">
+                    <div class="search-bar">
+                        <input type="text" class="search-input" id="prodSearch" placeholder="Search products..."
+                            oninput="filterProducts()" />
+                        <select class="filter-select" id="stockFilter" onchange="filterProducts()">
+                            <option value="">All Stock</option>
+                            <option value="in">In Stock</option>
+                            <option value="out">Out of Stock</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsBody">
+                            <tr>
+                                <td colspan="5" style="text-align:center;color:var(--text-muted);padding:40px;">Loading
+                                    products...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="productModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Edit Product</div><button class="modal-close"
+                    onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editId" />
+                <div class="form-group"><label class="form-label">Product Name</label><input type="text"
+                        class="form-input" id="prodName" /></div>
+                <div class="grid-2">
+                    <div class="form-group"><label class="form-label">Price (₹)</label><input type="number"
+                            class="form-input" id="prodPrice" /></div>
+                    <div class="form-group"><label class="form-label">Stock Qty</label><input type="number"
+                            class="form-input" id="prodStock" /></div>
+                </div>
+                <div class="form-group"><label class="form-label">Category</label>
+                    <select class="form-select" id="prodCategory">
+                        <option value="">Select</option>
+                        <option>T-Shirts</option>
+                        <option>Hoodies</option>
+                        <option>Shirts</option>
+                        <option>Trousers</option>
+                        <option>Shorts</option>
+                        <option>Accessories</option>
+                        <option>Jackets</option>
+                    </select>
+                </div>
+                <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea"
+                        id="prodDesc"></textarea></div>
+            </div>
+            <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button
+                    class="btn btn-primary" onclick="saveProduct()">Save Changes</button></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal" style="max-width:380px;">
+            <div class="modal-header">
+                <div class="modal-title">Delete Product?</div><button class="modal-close"
+                    onclick="closeDeleteModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <p style="color:var(--text-secondary);font-size:14px;">Are you sure you want to delete <strong
+                        id="deleteProductName"></strong>?</p>
+            </div>
+            <div class="modal-footer"><button class="btn btn-ghost" onclick="closeDeleteModal()">Cancel</button><button
+                    class="btn btn-danger" onclick="confirmDelete()">Delete</button></div>
+        </div>
+    </div>
+    <div id="toast"></div>
+
+    <script>
+        if (sessionStorage.getItem('pessava_admin') !== 'true') window.location.href = 'login.html';
+        const API = '/api'; let allProducts = []; let deleteId = null;
+        function showToast(msg, type = 'info') { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'show'; t.style.borderColor = type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--card-border)'; setTimeout(() => t.className = '', 3000); }
+        async function loadProducts() {
+            try { const r = await fetch(`${API}/products`); const data = await r.json(); allProducts = Array.isArray(data) ? data : (data.products || []); document.getElementById('prodCount').textContent = `${allProducts.length} total`; renderProducts(allProducts); }
+            catch (e) { document.getElementById('productsBody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:40px;">⚠ Connect backend to see products</td></tr>'; }
+        }
+        function renderProducts(list) {
+            const tbody = document.getElementById('productsBody');
+            if (!list.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:40px;">No products found</td></tr>'; return; }
+            tbody.innerHTML = list.map(p => {
+                const stock = p.countInStock ?? p.stock ?? 0; return `<tr>
+    <td><div class="prod-info"><div class="prod-thumb">👕</div><span class="bold">${p.name || 'Product'}</span></div></td>
+    <td style="color:var(--text-secondary);">${p.category || '—'}</td>
+    <td class="bold">₹${(p.price || 0).toLocaleString('en-IN')}</td>
+    <td><span class="badge ${stock > 0 ? 'badge-success' : 'badge-danger'}">${stock > 0 ? stock + ' in stock' : 'Out of stock'}</span></td>
+    <td><div class="action-btns">
+      <button class="action-btn" onclick='openEditModal(${JSON.stringify(p)})'>✏️</button>
+      <button class="action-btn del" onclick="openDeleteModal('${p._id || p.id}','${p.name || 'product'}')">🗑️</button>
+    </div></td>
+  </tr>`;
+            }).join('');
+        }
+        function filterProducts() {
+            const q = document.getElementById('prodSearch').value.toLowerCase();
+            const s = document.getElementById('stockFilter').value;
+            renderProducts(allProducts.filter(p => {
+                const matchQ = !q || (p.name || '').toLowerCase().includes(q) || (p.category || '').toLowerCase().includes(q);
+                const stock = p.countInStock ?? p.stock ?? 0;
+                return matchQ && (!s || (s === 'in' ? stock > 0 : stock <= 0));
+            }));
+        }
+        function openEditModal(p) {
+            document.getElementById('editId').value = p._id || p.id || '';
+            document.getElementById('prodName').value = p.name || '';
+            document.getElementById('prodPrice').value = p.price || '';
+            document.getElementById('prodStock').value = p.countInStock ?? p.stock ?? '';
+            document.getElementById('prodCategory').value = p.category || '';
+            document.getElementById('prodDesc').value = p.description || '';
+            document.getElementById('productModal').classList.add('open');
+        }
+        function closeModal() { document.getElementById('productModal').classList.remove('open'); }
+        function openDeleteModal(id, name) { deleteId = id; document.getElementById('deleteProductName').textContent = name; document.getElementById('deleteModal').classList.add('open'); }
+        function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('open'); deleteId = null; }
+        async function saveProduct() {
+            const id = document.getElementById('editId').value;
+            const body = { name: document.getElementById('prodName').value, price: parseFloat(document.getElementById('prodPrice').value) || 0, countInStock: parseInt(document.getElementById('prodStock').value) || 0, category: document.getElementById('prodCategory').value, description: document.getElementById('prodDesc').value };
+            if (!body.name || !body.price) { showToast('⚠ Fill name and price', 'error'); return; }
+            try {
+                const r = await fetch(`${API}/products/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+                if (r.ok) { showToast('✅ Product updated!', 'success'); closeModal(); loadProducts(); } else showToast('❌ Save failed', 'error');
+            } catch (e) { showToast('❌ Backend not connected', 'error'); closeModal(); }
+        }
+        async function confirmDelete() {
+            if (!deleteId) return;
+            try {
+                const r = await fetch(`${API}/products/${deleteId}`, { method: 'DELETE' });
+                if (r.ok) { showToast('🗑 Deleted!', 'success'); closeDeleteModal(); loadProducts(); } else showToast('❌ Failed', 'error');
+            } catch (e) { showToast('❌ Backend not connected', 'error'); closeDeleteModal(); }
+        }
+        loadProducts();
+    </script>
+</body>
+
+</html>
