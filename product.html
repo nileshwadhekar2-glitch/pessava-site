@@ -1,336 +1,724 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PESSAVA — Product</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root { --black:#0a0a0a; --white:#f5f3ef; --accent:#e8372a; --gray:#888; --light:#f0ede8; --border:#ddd9d2; }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'DM Sans',sans-serif; background:var(--white); color:var(--black); }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PESSAVA — Product</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f3ef;
+      --accent: #e8372a;
+      --gray: #888;
+      --light: #f0ede8;
+      --border: #ddd9d2;
+    }
 
-  .announce { background:var(--black); color:var(--white); text-align:center; font-size:11px; letter-spacing:1px; padding:8px; text-transform:uppercase; }
-  nav { background:var(--white); border-bottom:1.5px solid var(--border); position:sticky; top:0; z-index:100; display:flex; align-items:center; padding:0 24px; height:60px; }
-  .nav-logo { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:3px; color:var(--black); text-decoration:none; flex:1; }
-  .nav-logo span { color:var(--accent); }
-  .nav-right { display:flex; gap:16px; align-items:center; }
-  .nav-right a { text-decoration:none; font-size:13px; color:var(--black); font-weight:500; }
-  .cart-count { background:var(--accent); color:#fff; border-radius:50%; width:18px; height:18px; font-size:10px; display:inline-flex; align-items:center; justify-content:center; margin-left:2px; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  /* BREADCRUMB */
-  .breadcrumb { padding:14px 24px; font-size:12px; color:var(--gray); }
-  .breadcrumb a { color:var(--gray); text-decoration:none; }
-  .breadcrumb a:hover { color:var(--black); }
-  .breadcrumb span { margin:0 6px; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--black);
+    }
 
-  /* PRODUCT LAYOUT */
-  .product-layout {
-    display:grid; grid-template-columns:1fr 1fr;
-    gap:40px; max-width:1100px; margin:0 auto;
-    padding:24px 24px 60px;
-  }
+    .announce {
+      background: var(--black);
+      color: var(--white);
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding: 8px;
+      text-transform: uppercase;
+    }
 
-  /* IMAGE SECTION */
-  .img-main {
-    background:var(--light); border-radius:12px;
-    aspect-ratio:3/4; display:flex; align-items:center;
-    justify-content:center; font-size:120px;
-    border:1px solid var(--border); position:relative;
-  }
-  .img-thumbs { display:flex; gap:10px; margin-top:12px; }
-  .thumb {
-    width:72px; height:72px; background:var(--light);
-    border-radius:6px; border:2px solid transparent;
-    display:flex; align-items:center; justify-content:center;
-    font-size:28px; cursor:pointer; transition:border-color 0.2s;
-  }
-  .thumb.active, .thumb:hover { border-color:var(--black); }
-  .img-badge { position:absolute; top:14px; left:14px; background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:4px 10px; border-radius:4px; letter-spacing:1px; }
+    nav {
+      background: var(--white);
+      border-bottom: 1.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      height: 60px;
+    }
 
-  /* DETAILS SECTION */
-  .prod-brand-tag { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gray); margin-bottom:8px; }
-  .prod-title { font-family:'Bebas Neue',sans-serif; font-size:42px; letter-spacing:1px; line-height:1; margin-bottom:12px; }
-  .rating-row { display:flex; align-items:center; gap:10px; margin-bottom:16px; }
-  .stars { color:#f5a623; font-size:14px; }
-  .rating-count { font-size:13px; color:var(--gray); }
-  .price-row { display:flex; align-items:baseline; gap:12px; margin-bottom:20px; }
-  .price-main { font-size:32px; font-weight:700; }
-  .price-strike { font-size:18px; color:var(--gray); text-decoration:line-through; }
-  .price-save { background:#e8f5e9; color:#2e7d32; font-size:13px; font-weight:600; padding:3px 10px; border-radius:4px; }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      letter-spacing: 3px;
+      color: var(--black);
+      text-decoration: none;
+      flex: 1;
+    }
 
-  /* SIZE SELECTOR */
-  .label { font-size:13px; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:10px; }
-  .label span { color:var(--gray); font-weight:400; text-transform:none; letter-spacing:0; }
-  .size-guide { font-size:12px; color:var(--accent); cursor:pointer; text-decoration:underline; float:right; font-weight:500; }
-  .sizes { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
-  .size-btn {
-    width:48px; height:48px; border-radius:6px;
-    border:1.5px solid var(--border); background:#fff;
-    font-size:13px; font-weight:500; cursor:pointer;
-    transition:all 0.2s; font-family:'DM Sans',sans-serif;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .size-btn:hover { border-color:var(--black); }
-  .size-btn.selected { background:var(--black); color:#fff; border-color:var(--black); }
-  .size-btn.sold-out { color:#ccc; text-decoration:line-through; cursor:not-allowed; }
+    .nav-logo span {
+      color: var(--accent);
+    }
 
-  /* COLOR */
-  .colors { display:flex; gap:10px; margin-bottom:24px; }
-  .color-dot {
-    width:32px; height:32px; border-radius:50%;
-    border:2px solid transparent; cursor:pointer;
-    transition:all 0.2s; outline:2px solid transparent; outline-offset:2px;
-  }
-  .color-dot.selected, .color-dot:hover { outline-color:var(--black); }
+    .nav-right {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
 
-  /* QTY + BUTTONS */
-  .qty-row { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-  .qty-box { display:flex; align-items:center; border:1.5px solid var(--border); border-radius:6px; overflow:hidden; }
-  .qty-box button { width:40px; height:44px; background:none; border:none; font-size:18px; cursor:pointer; font-family:'DM Sans',sans-serif; transition:background 0.2s; }
-  .qty-box button:hover { background:var(--light); }
-  .qty-box span { width:44px; text-align:center; font-size:15px; font-weight:600; }
-  .btn-add {
-    flex:1; background:var(--black); color:#fff;
-    padding:14px; border-radius:6px; border:none;
-    font-family:'DM Sans',sans-serif; font-size:14px;
-    font-weight:600; letter-spacing:1px; text-transform:uppercase;
-    cursor:pointer; transition:opacity 0.2s;
-  }
-  .btn-add:hover { opacity:0.85; }
-  .btn-buy {
-    width:100%; background:var(--accent); color:#fff;
-    padding:14px; border-radius:6px; border:none;
-    font-family:'DM Sans',sans-serif; font-size:14px;
-    font-weight:600; letter-spacing:1px; text-transform:uppercase;
-    cursor:pointer; margin-bottom:16px; transition:opacity 0.2s;
-  }
-  .btn-buy:hover { opacity:0.9; }
-  .btn-wishlist {
-    width:100%; background:none; color:var(--black);
-    padding:13px; border-radius:6px;
-    border:1.5px solid var(--border);
-    font-family:'DM Sans',sans-serif; font-size:14px;
-    font-weight:500; cursor:pointer; margin-bottom:20px;
-    transition:border-color 0.2s;
-  }
-  .btn-wishlist:hover { border-color:var(--black); }
+    .nav-right a {
+      text-decoration: none;
+      font-size: 13px;
+      color: var(--black);
+      font-weight: 500;
+    }
 
-  /* OFFERS */
-  .offers { background:var(--light); border-radius:8px; padding:14px 16px; margin-bottom:20px; }
-  .offer-item { display:flex; align-items:flex-start; gap:10px; font-size:13px; margin-bottom:8px; }
-  .offer-item:last-child { margin-bottom:0; }
-  .offer-icon { font-size:16px; flex-shrink:0; }
+    .cart-count {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 2px;
+    }
 
-  /* ACCORDION */
-  .accordion { border-top:1px solid var(--border); }
-  .acc-item { border-bottom:1px solid var(--border); }
-  .acc-head {
-    width:100%; background:none; border:none; padding:16px 0;
-    display:flex; align-items:center; justify-content:space-between;
-    font-family:'DM Sans',sans-serif; font-size:14px; font-weight:600;
-    cursor:pointer; color:var(--black); text-align:left;
-  }
-  .acc-icon { font-size:18px; transition:transform 0.3s; }
-  .acc-body { max-height:0; overflow:hidden; transition:max-height 0.35s ease; }
-  .acc-body.open { max-height:300px; }
-  .acc-body p { font-size:13px; color:var(--gray); line-height:1.8; padding-bottom:16px; }
+    /* BREADCRUMB */
+    .breadcrumb {
+      padding: 14px 24px;
+      font-size: 12px;
+      color: var(--gray);
+    }
 
-  /* TOAST */
-  .toast {
-    position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(80px);
-    background:var(--black); color:#fff; padding:12px 24px;
-    border-radius:40px; font-size:13px; font-weight:500;
-    z-index:999; transition:transform 0.4s ease;
-    white-space:nowrap;
-  }
-  .toast.show { transform:translateX(-50%) translateY(0); }
+    .breadcrumb a {
+      color: var(--gray);
+      text-decoration: none;
+    }
 
-  /* MOBILE */
-  @media(max-width:768px) {
-    .product-layout { grid-template-columns:1fr; gap:20px; padding:12px 16px 40px; }
-    .prod-title { font-size:32px; }
-    .price-main { font-size:26px; }
-    .img-main { font-size:80px; }
-  }
-</style>
+    .breadcrumb a:hover {
+      color: var(--black);
+    }
+
+    .breadcrumb span {
+      margin: 0 6px;
+    }
+
+    /* PRODUCT LAYOUT */
+    .product-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 24px 60px;
+    }
+
+    /* IMAGE SECTION */
+    .img-main {
+      background: var(--light);
+      border-radius: 12px;
+      aspect-ratio: 3/4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 120px;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .img-thumbs {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .thumb {
+      width: 72px;
+      height: 72px;
+      background: var(--light);
+      border-radius: 6px;
+      border: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .thumb.active,
+    .thumb:hover {
+      border-color: var(--black);
+    }
+
+    .img-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+
+    /* DETAILS SECTION */
+    .prod-brand-tag {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+
+    .prod-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 42px;
+      letter-spacing: 1px;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .stars {
+      color: #f5a623;
+      font-size: 14px;
+    }
+
+    .rating-count {
+      font-size: 13px;
+      color: var(--gray);
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .price-main {
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .price-strike {
+      font-size: 18px;
+      color: var(--gray);
+      text-decoration: line-through;
+    }
+
+    .price-save {
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 4px;
+    }
+
+    /* SIZE SELECTOR */
+    .label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .label span {
+      color: var(--gray);
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .size-guide {
+      font-size: 12px;
+      color: var(--accent);
+      cursor: pointer;
+      text-decoration: underline;
+      float: right;
+      font-weight: 500;
+    }
+
+    .sizes {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .size-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 6px;
+      border: 1.5px solid var(--border);
+      background: #fff;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .size-btn:hover {
+      border-color: var(--black);
+    }
+
+    .size-btn.selected {
+      background: var(--black);
+      color: #fff;
+      border-color: var(--black);
+    }
+
+    .size-btn.sold-out {
+      color: #ccc;
+      text-decoration: line-through;
+      cursor: not-allowed;
+    }
+
+    /* COLOR */
+    .colors {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .color-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+
+    .color-dot.selected,
+    .color-dot:hover {
+      outline-color: var(--black);
+    }
+
+    /* QTY + BUTTONS */
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .qty-box {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .qty-box button {
+      width: 40px;
+      height: 44px;
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.2s;
+    }
+
+    .qty-box button:hover {
+      background: var(--light);
+    }
+
+    .qty-box span {
+      width: 44px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .btn-add {
+      flex: 1;
+      background: var(--black);
+      color: #fff;
+      padding: 14px;
+      border-radius: 6px;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn-add:hover {
+      opacity: 0.85;
+    }
+
+    .btn-buy {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      padding: 14px;
+      border-radius: 6px;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-bottom: 16px;
+      transition: opacity 0.2s;
+    }
+
+    .btn-buy:hover {
+      opacity: 0.9;
+    }
+
+    .btn-wishlist {
+      width: 100%;
+      background: none;
+      color: var(--black);
+      padding: 13px;
+      border-radius: 6px;
+      border: 1.5px solid var(--border);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: border-color 0.2s;
+    }
+
+    .btn-wishlist:hover {
+      border-color: var(--black);
+    }
+
+    /* OFFERS */
+    .offers {
+      background: var(--light);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+    }
+
+    .offer-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .offer-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .offer-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    /* ACCORDION */
+    .accordion {
+      border-top: 1px solid var(--border);
+    }
+
+    .acc-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .acc-head {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 16px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--black);
+      text-align: left;
+    }
+
+    .acc-icon {
+      font-size: 18px;
+      transition: transform 0.3s;
+    }
+
+    .acc-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+
+    .acc-body.open {
+      max-height: 300px;
+    }
+
+    .acc-body p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.8;
+      padding-bottom: 16px;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--black);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 40px;
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 999;
+      transition: transform 0.4s ease;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* MOBILE */
+    @media(max-width:768px) {
+      .product-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 12px 16px 40px;
+      }
+
+      .prod-title {
+        font-size: 32px;
+      }
+
+      .price-main {
+        font-size: 26px;
+      }
+
+      .img-main {
+        font-size: 80px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="announce">FREE SHIPPING ABOVE ₹499 &nbsp;|&nbsp; CODE: PESSAVA20</div>
+  <div class="announce">FREE SHIPPING ABOVE ₹499 &nbsp;|&nbsp; CODE: PESSAVA20</div>
 
-<nav>
-  <a href="index.html" class="nav-logo">PESSAVA<span>.</span></a>
-  <div class="nav-right">
-    <a href="index.html">← Back</a>
-    <a href="cart.html">🛒 Cart <span class="cart-count" id="cartCount">0</span></a>
-  </div>
-</nav>
-
-<div class="breadcrumb">
-  <a href="index.html">Home</a><span>›</span>
-  <a href="index.html">Men's</a><span>›</span>
-  <a href="index.html">T-Shirts</a><span>›</span>
-  Acid Wash Oversized Tee
-</div>
-
-<div class="product-layout">
-  <!-- Images -->
-  <div>
-    <div class="img-main">
-      <div class="img-badge">30% OFF</div>
-      <span id="mainEmoji">👕</span>
+  <nav>
+    <a href="index.html" class="nav-logo">PESSAVA<span>.</span></a>
+    <div class="nav-right">
+      <a href="index.html">← Back</a>
+      <a href="cart.html">🛒 Cart <span class="cart-count" id="cartCount">0</span></a>
     </div>
-    <div class="img-thumbs">
-      <div class="thumb active" onclick="switchImg(this,'👕')">👕</div>
-      <div class="thumb" onclick="switchImg(this,'🎽')">🎽</div>
-      <div class="thumb" onclick="switchImg(this,'👔')">👔</div>
-      <div class="thumb" onclick="switchImg(this,'🧥')">🧥</div>
-    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="index.html">Men's</a><span>›</span>
+    <a href="index.html">T-Shirts</a><span>›</span>
+    Acid Wash Oversized Tee
   </div>
 
-  <!-- Details -->
-  <div>
-    <div class="prod-brand-tag">PESSAVA Originals</div>
-    <div class="prod-title">Acid Wash Oversized Drop-Shoulder Tee</div>
-
-    <div class="rating-row">
-      <span class="stars">★★★★☆</span>
-      <span class="rating-count">4.3 (812 reviews)</span>
-    </div>
-
-    <div class="price-row">
-      <span class="price-main">₹699</span>
-      <span class="price-strike">₹999</span>
-      <span class="price-save">You save ₹300</span>
-    </div>
-
-    <!-- Color -->
-    <div class="label">Color: <span id="colorName">Black</span></div>
-    <div class="colors" style="margin-bottom:16px;">
-      <div class="color-dot selected" style="background:#1a1a1a;" onclick="selectColor(this,'Black')" title="Black"></div>
-      <div class="color-dot" style="background:#4a5568;" onclick="selectColor(this,'Charcoal')" title="Charcoal"></div>
-      <div class="color-dot" style="background:#c9a96e;" onclick="selectColor(this,'Camel')" title="Camel"></div>
-      <div class="color-dot" style="background:#e8372a;" onclick="selectColor(this,'Red')" title="Red"></div>
-      <div class="color-dot" style="background:#2b6cb0;" onclick="selectColor(this,'Navy')" title="Navy"></div>
-    </div>
-
-    <!-- Size -->
-    <div class="label">
-      Select Size
-      <span class="size-guide">Size Guide</span>
-    </div>
-    <div class="sizes">
-      <div class="size-btn" onclick="selectSize(this)">XS</div>
-      <div class="size-btn" onclick="selectSize(this)">S</div>
-      <div class="size-btn selected" onclick="selectSize(this)">M</div>
-      <div class="size-btn" onclick="selectSize(this)">L</div>
-      <div class="size-btn" onclick="selectSize(this)">XL</div>
-      <div class="size-btn sold-out" title="Sold Out">XXL</div>
-    </div>
-
-    <!-- Qty + Add to cart -->
-    <div class="qty-row">
-      <div class="qty-box">
-        <button onclick="changeQty(-1)">−</button>
-        <span id="qty">1</span>
-        <button onclick="changeQty(1)">+</button>
+  <div class="product-layout">
+    <!-- Images -->
+    <div>
+      <div class="img-main">
+        <div class="img-badge">30% OFF</div>
+        <span id="mainEmoji">👕</span>
       </div>
-      <button class="btn-add" onclick="addToCart()">🛒 Add to Cart</button>
+      <div class="img-thumbs">
+        <div class="thumb active" onclick="switchImg(this,'👕')">👕</div>
+        <div class="thumb" onclick="switchImg(this,'🎽')">🎽</div>
+        <div class="thumb" onclick="switchImg(this,'👔')">👔</div>
+        <div class="thumb" onclick="switchImg(this,'🧥')">🧥</div>
+      </div>
     </div>
 
-    <button class="btn-buy" onclick="window.location.href='cart.html'">⚡ Buy Now</button>
-    <button class="btn-wishlist" onclick="toggleWishlist(this)">♡ &nbsp;Add to Wishlist</button>
+    <!-- Details -->
+    <div>
+      <div class="prod-brand-tag">PESSAVA Originals</div>
+      <div class="prod-title">Acid Wash Oversized Drop-Shoulder Tee</div>
 
-    <!-- Offers -->
-    <div class="offers">
-      <div class="offer-item"><span class="offer-icon">🚚</span><span><strong>Free delivery</strong> on orders above ₹499</span></div>
-      <div class="offer-item"><span class="offer-icon">↩️</span><span><strong>30-day easy returns</strong> — no questions asked</span></div>
-      <div class="offer-item"><span class="offer-icon">💳</span><span>Use code <strong>PESSAVA20</strong> for extra 20% off</span></div>
-      <div class="offer-item"><span class="offer-icon">🔒</span><span><strong>Secure checkout</strong> — UPI, Cards, COD available</span></div>
-    </div>
+      <div class="rating-row">
+        <span class="stars">★★★★☆</span>
+        <span class="rating-count">4.3 (812 reviews)</span>
+      </div>
 
-    <!-- Accordion -->
-    <div class="accordion">
-      <div class="acc-item">
-        <button class="acc-head" onclick="toggleAcc(this)">
-          Product Details <span class="acc-icon">+</span>
-        </button>
-        <div class="acc-body">
-          <p>100% premium cotton | Oversized drop-shoulder fit | Acid wash treatment for vintage look | Ribbed collar | Regular length. Wash care: machine wash cold, do not bleach, tumble dry low.</p>
+      <div class="price-row">
+        <span class="price-main">₹699</span>
+        <span class="price-strike">₹999</span>
+        <span class="price-save">You save ₹300</span>
+      </div>
+
+      <!-- Color -->
+      <div class="label">Color: <span id="colorName">Black</span></div>
+      <div class="colors" style="margin-bottom:16px;">
+        <div class="color-dot selected" style="background:#1a1a1a;" onclick="selectColor(this,'Black')" title="Black">
         </div>
-      </div>
-      <div class="acc-item">
-        <button class="acc-head" onclick="toggleAcc(this)">
-          Size & Fit <span class="acc-icon">+</span>
-        </button>
-        <div class="acc-body">
-          <p>Oversized fit — we recommend sizing down if you prefer a regular fit. Model is 6'1" and wearing size M. Chest: S=38", M=40", L=42", XL=44".</p>
+        <div class="color-dot" style="background:#4a5568;" onclick="selectColor(this,'Charcoal')" title="Charcoal">
         </div>
+        <div class="color-dot" style="background:#c9a96e;" onclick="selectColor(this,'Camel')" title="Camel"></div>
+        <div class="color-dot" style="background:#e8372a;" onclick="selectColor(this,'Red')" title="Red"></div>
+        <div class="color-dot" style="background:#2b6cb0;" onclick="selectColor(this,'Navy')" title="Navy"></div>
       </div>
-      <div class="acc-item">
-        <button class="acc-head" onclick="toggleAcc(this)">
-          Shipping & Returns <span class="acc-icon">+</span>
-        </button>
-        <div class="acc-body">
-          <p>Standard delivery: 4–7 business days. Express delivery: 1–2 days (extra charge). Returns accepted within 30 days of delivery — item must be unworn with tags attached.</p>
+
+      <!-- Size -->
+      <div class="label">
+        Select Size
+        <span class="size-guide">Size Guide</span>
+      </div>
+      <div class="sizes">
+        <div class="size-btn" onclick="selectSize(this)">XS</div>
+        <div class="size-btn" onclick="selectSize(this)">S</div>
+        <div class="size-btn selected" onclick="selectSize(this)">M</div>
+        <div class="size-btn" onclick="selectSize(this)">L</div>
+        <div class="size-btn" onclick="selectSize(this)">XL</div>
+        <div class="size-btn sold-out" title="Sold Out">XXL</div>
+      </div>
+
+      <!-- Qty + Add to cart -->
+      <div class="qty-row">
+        <div class="qty-box">
+          <button onclick="changeQty(-1)">−</button>
+          <span id="qty">1</span>
+          <button onclick="changeQty(1)">+</button>
+        </div>
+        <button class="btn-add" onclick="addToCart()">🛒 Add to Cart</button>
+      </div>
+
+      <button class="btn-buy" onclick="window.location.href='cart.html'">⚡ Buy Now</button>
+      <button class="btn-wishlist" onclick="toggleWishlist(this)">♡ &nbsp;Add to Wishlist</button>
+
+      <!-- Offers -->
+      <div class="offers">
+        <div class="offer-item"><span class="offer-icon">🚚</span><span><strong>Free delivery</strong> on orders above
+            ₹499</span></div>
+        <div class="offer-item"><span class="offer-icon">↩️</span><span><strong>30-day easy returns</strong> — no
+            questions asked</span></div>
+        <div class="offer-item"><span class="offer-icon">💳</span><span>Use code <strong>PESSAVA20</strong> for extra
+            20% off</span></div>
+        <div class="offer-item"><span class="offer-icon">🔒</span><span><strong>Secure checkout</strong> — UPI, Cards,
+            COD available</span></div>
+      </div>
+
+      <!-- Accordion -->
+      <div class="accordion">
+        <div class="acc-item">
+          <button class="acc-head" onclick="toggleAcc(this)">
+            Product Details <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <p>100% premium cotton | Oversized drop-shoulder fit | Acid wash treatment for vintage look | Ribbed collar
+              | Regular length. Wash care: machine wash cold, do not bleach, tumble dry low.</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-head" onclick="toggleAcc(this)">
+            Size & Fit <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <p>Oversized fit — we recommend sizing down if you prefer a regular fit. Model is 6'1" and wearing size M.
+              Chest: S=38", M=40", L=42", XL=44".</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-head" onclick="toggleAcc(this)">
+            Shipping & Returns <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <p>Standard delivery: 4–7 business days. Express delivery: 1–2 days (extra charge). Returns accepted within
+              30 days of delivery — item must be unworn with tags attached.</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="toast" id="toast">✅ Added to cart!</div>
+  <div class="toast" id="toast">✅ Added to cart!</div>
 
-<script>
-let qty = 1;
-let cart = JSON.parse(localStorage.getItem('pessava_cart') || '[]');
-document.getElementById('cartCount').textContent = cart.length;
+  <script>
+    let qty = 1;
+    let cart = JSON.parse(localStorage.getItem('pessava_cart') || '[]');
+    document.getElementById('cartCount').textContent = cart.length;
 
-function changeQty(d) {
-  qty = Math.max(1, Math.min(10, qty + d));
-  document.getElementById('qty').textContent = qty;
-}
-function selectSize(el) {
-  if(el.classList.contains('sold-out')) return;
-  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
-}
-function selectColor(el, name) {
-  document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('selected'));
-  el.classList.add('selected');
-  document.getElementById('colorName').textContent = name;
-}
-function switchImg(el, emoji) {
-  document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('mainEmoji').textContent = emoji;
-}
-function addToCart() {
-  const size = document.querySelector('.size-btn.selected')?.textContent || 'M';
-  const color = document.getElementById('colorName').textContent;
-  cart.push({ name:'Acid Wash Oversized Tee', price:699, qty, size, color });
-  localStorage.setItem('pessava_cart', JSON.stringify(cart));
-  document.getElementById('cartCount').textContent = cart.length;
-  showToast('✅ Added to cart!');
-}
-function toggleWishlist(btn) {
-  const inWishlist = btn.textContent.includes('❤️');
-  btn.textContent = inWishlist ? '♡  Add to Wishlist' : '❤️  Saved to Wishlist';
-}
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-function toggleAcc(btn) {
-  const body = btn.nextElementSibling;
-  const icon = btn.querySelector('.acc-icon');
-  const isOpen = body.classList.contains('open');
-  document.querySelectorAll('.acc-body').forEach(b => b.classList.remove('open'));
-  document.querySelectorAll('.acc-icon').forEach(i => i.textContent = '+');
-  if(!isOpen) { body.classList.add('open'); icon.textContent = '−'; }
-}
-</script>
+    function changeQty(d) {
+      qty = Math.max(1, Math.min(10, qty + d));
+      document.getElementById('qty').textContent = qty;
+    }
+    function selectSize(el) {
+      if (el.classList.contains('sold-out')) return;
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+    function selectColor(el, name) {
+      document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('colorName').textContent = name;
+    }
+    function switchImg(el, emoji) {
+      document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('mainEmoji').textContent = emoji;
+    }
+    function addToCart() {
+      const size = document.querySelector('.size-btn.selected')?.textContent || 'M';
+      const color = document.getElementById('colorName').textContent;
+      cart.push({ name: 'Acid Wash Oversized Tee', price: 699, qty, size, color });
+      localStorage.setItem('pessava_cart', JSON.stringify(cart));
+      document.getElementById('cartCount').textContent = cart.length;
+      showToast('✅ Added to cart!');
+    }
+    function toggleWishlist(btn) {
+      const inWishlist = btn.textContent.includes('❤️');
+      btn.textContent = inWishlist ? '♡  Add to Wishlist' : '❤️  Saved to Wishlist';
+    }
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+    function toggleAcc(btn) {
+      const body = btn.nextElementSibling;
+      const icon = btn.querySelector('.acc-icon');
+      const isOpen = body.classList.contains('open');
+      document.querySelectorAll('.acc-body').forEach(b => b.classList.remove('open'));
+      document.querySelectorAll('.acc-icon').forEach(i => i.textContent = '+');
+      if (!isOpen) { body.classList.add('open'); icon.textContent = '−'; }
+    }
+  </script>
 </body>
+
 </html>
